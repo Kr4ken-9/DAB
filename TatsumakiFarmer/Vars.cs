@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Discord;
 using Discord.WebSocket;
 
 namespace TatsumakiFarmer
@@ -9,9 +11,9 @@ namespace TatsumakiFarmer
 
         public static DiscordSocketClient Client;
 
-        public static SocketTextChannel[] FarmingChannels = { Test };
+        public static IEnumerable<ITextChannel> FarmingChannels;
 
-        public static SocketTextChannel Test;
+        public static ITextChannel Test;
 
         public static Random Random;
 

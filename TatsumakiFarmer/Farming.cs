@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord;
 
 namespace TatsumakiFarmer
 {
@@ -8,17 +10,15 @@ namespace TatsumakiFarmer
     {
         public static async Task Farm()
         {
-            while (Vars.FarmingChannels.Length != 0)
+            while (true)
             {
-                for (int i = 0; i < Vars.FarmingChannels.Length; i++)
-                    Vars.FarmingChannels[i].SendMessageAsync(Vars.GenerateResponse());
+                if (!Vars.FarmingChannels.Any()) continue;
                 
-                Console.WriteLine("Farming complete.");
+                foreach(ITextChannel Channel in Vars.FarmingChannels)
+                    await Channel.SendMessageAsync(Vars.GenerateResponse());
                 
                 Thread.Sleep(120000);
             }
-            
-            Task.Delay(-1);
         }
     }
 }
