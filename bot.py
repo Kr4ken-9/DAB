@@ -1,8 +1,11 @@
 import discord
 import asyncio
 import yaml
+import random
 
 client = discord.Client()
+
+rand = random.SystemRandom()
 
 @client.event
 async def on_ready():
@@ -33,7 +36,7 @@ async def farm():
 
         for schannel in config['channels']:
             channel = discord.Object(id=schannel)
-            message = await client.send_message(channel, 'test')
+            message = await client.send_message(channel, rand.choice(config['messages']))
 
             if config['silent']:
                 await client.delete_message(message)

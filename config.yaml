@@ -1,4 +1,5 @@
 token: x
 channels: ['x', 'y', 'z']
-silent: true
+silent: false
 delay: 2
+messages: ['I like noodles!', 'David has 12 bowling balls', 'Are you a sloth?']
