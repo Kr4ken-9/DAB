@@ -1,8 +1,8 @@
 import discord
 import asyncio
+import yaml
 
 client = discord.Client()
-channels = []
 
 @client.event
 async def on_ready():
@@ -35,5 +35,9 @@ async def farm():
             await client.send_message(channel, 'test')
             await asyncio.sleep(3)
 
+with open('config.yaml', 'r') as file:
+    config = yaml.load(file)
+
+channels = config['channels']
 client.loop.create_task(farm())
-client.run('', bot=False)
+client.run(config['token'], bot=False)
