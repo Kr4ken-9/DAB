@@ -14,36 +14,34 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.content.startswith('_add'):
-        channels.append(message.channel.id)
+        config['channels'].append(message.channel.id)
 
     if message.content.startswith('_remove'):
-        channels.remove(message.channel.id)
+        config['channels'].remove(message.channel.id)
 
     if message.content.startswith('_save'):
         with open('config.yaml', 'w') as file:
-            config['channels'] = channels
             file.write(yaml.dump(config))
 
 async def farm():
     await client.wait_until_ready()
 
     while not client.is_closed:
-        if len(channels) == 0:
-            await asyncio.sleep(3)
+        if len(config['channels']) == 0:
+            await asyncio.sleep(config['delay'])
             return
 
-        for schannel in channels:
+        for schannel in config['channels']:
             channel = discord.Object(id=schannel)
             message = await client.send_message(channel, 'test')
 
             if config['silent']:
                 await client.delete_message(message)
 
-            await asyncio.sleep(3)
+            await asyncio.sleep(config['delay'])
 
 with open('config.yaml', 'r') as file:
     config = yaml.load(file)
 
-channels = config['channels']
 client.loop.create_task(farm())
 client.run(config['token'], bot=False)
