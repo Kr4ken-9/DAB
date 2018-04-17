@@ -3,3 +3,4 @@ channels: ['x', 'y', 'z']
 silent: false
 delay: 2 # Random delay like so: delay: [x, y] (This will pick a random delay between x and y)
 messages: ['I like noodles!', 'David has 12 bowling balls', 'Are you a sloth?']
+randomchannels: true

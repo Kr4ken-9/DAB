@@ -38,7 +38,11 @@ async def farm():
             await asyncio.sleep(config['delay'])
             continue
 
-        for schannel in config['channels']:
+        channels = config['channels']
+        if config['randomchannels']:
+            rand.shuffle(channels)
+
+        for schannel in channels:
             channel = discord.Object(id=schannel)
             message = await client.send_message(channel, rand.choice(config['messages']))
 
