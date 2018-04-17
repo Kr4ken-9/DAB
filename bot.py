@@ -22,6 +22,11 @@ async def on_message(message):
     if message.content.startswith('_remove'):
         channels.remove(message.channel.id)
 
+    if message.content.startswith('_save'):
+        with open('config.yaml', 'w') as file:
+            config['channels'] = channels
+            file.write(yaml.dump(config))
+
 async def farm():
     await client.wait_until_ready()
 
