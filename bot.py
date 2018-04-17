@@ -4,7 +4,6 @@ import yaml
 import random
 
 client = discord.Client()
-
 rand = random.SystemRandom()
 
 @client.event
@@ -31,8 +30,13 @@ async def farm():
 
     while not client.is_closed:
         if len(config['channels']) == 0:
+            if type(config['delay']) is list:
+                minmax = config['delay']
+                await asyncio.sleep(rand.randint(minmax[0], minmax[1]))
+                continue
+
             await asyncio.sleep(config['delay'])
-            return
+            continue
 
         for schannel in config['channels']:
             channel = discord.Object(id=schannel)
@@ -41,7 +45,12 @@ async def farm():
             if config['silent']:
                 await client.delete_message(message)
 
-            await asyncio.sleep(config['delay'])
+        if type(config['delay']) is list:
+            minmax = config['delay']
+            await asyncio.sleep(rand.randint(minmax[0], minmax[1]))
+            continue
+
+        await asyncio.sleep(config['delay'])
 
 with open('config.yaml', 'r') as file:
     config = yaml.load(file)
