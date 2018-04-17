@@ -13,9 +13,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('!ping'):
-        await client.send_message(message.channel, 'pong')
-
     if message.content.startswith('_add'):
         channels.append(message.channel.id)
 
@@ -37,7 +34,11 @@ async def farm():
 
         for schannel in channels:
             channel = discord.Object(id=schannel)
-            await client.send_message(channel, 'test')
+            message = await client.send_message(channel, 'test')
+
+            if config['silent']:
+                await client.delete_message(message)
+
             await asyncio.sleep(3)
 
 with open('config.yaml', 'r') as file:

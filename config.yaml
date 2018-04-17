@@ -1,2 +1,3 @@
 token: x
 channels: ['x', 'y', 'z']
+silent: true
