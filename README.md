@@ -1,6 +1,6 @@
 # TatsumakiFarmer
 
-NOTICE: Tatsumaki devs are spooper smart, this bot is detected. Don't know if manually or automated yet, but I will be testing different ways to determine which.
+NOTICE: Tatsumaki devs are spooper smart, this bot may be detected. However, if you enable randomization on everything, and use lots of custom messages, you should be fine.
 
 [JS Bot](https://github.com/ajmeese7/spambot) <-- This bot is essentially the same, and is not detected to my knowledge.
 
