@@ -11,3 +11,16 @@ Commands:
 | _add    | Add a channel to the farming list      |
 | _remove | Remove a channel from the farming list |
 | _save   | Save channels to config.yaml           |
+
+Config Options:
+
+| Config         | Description                                                  |
+| --------------:|:------------------------------------------------------------:|
+| token          | User token for login                                         |
+| channels       | List of channels to farm in                                  |
+| silent         | Time before deleting farming messages                        |
+| delay          | Interval of farming messages                                 |
+| messages       | List of messages to use for farming                          |
+| randomchannels | Whether or not to shuffle order in which channels are farmed |
+
+Additional config notes in config.yaml

@@ -47,6 +47,13 @@ async def farm():
             message = await client.send_message(channel, rand.choice(config['messages']))
 
             if config['silent']:
+                if type(config['silent']) is list:
+                    minmax = config['silent']
+                    await asyncio.sleep(rand.randint(minmax[0], minmax[1]))
+                else:
+                    if config['silent'] > 0:
+                        await asyncio.sleep(config['silent'])
+
                 await client.delete_message(message)
 
         if type(config['delay']) is list:
