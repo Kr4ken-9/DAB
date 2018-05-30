@@ -6,6 +6,7 @@ import random
 client = discord.Client()
 rand = random.SystemRandom()
 
+
 @client.event
 async def on_ready():
     print('Logged in as')
@@ -13,8 +14,16 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
+
 @client.event
 async def on_message(message):
+    if message.author.id != client.user.id and message.author.id not in config['owners']:
+        return
+
+    if message.author.id != client.user.id and message.content.startswith('|'):
+        await client.send_message(message.channel, message.content[1:])
+        return
+
     if message.content.startswith('_add'):
         config['channels'].append(message.channel.id)
 
@@ -24,6 +33,7 @@ async def on_message(message):
     if message.content.startswith('_save'):
         with open('config.yaml', 'w') as file:
             file.write(yaml.dump(config))
+
 
 async def farm():
     await client.wait_until_ready()
@@ -63,8 +73,9 @@ async def farm():
 
         await asyncio.sleep(config['delay'])
 
+
 with open('config.yaml', 'r') as file:
     config = yaml.load(file)
 
-client.loop.create_task(farm())
+#client.loop.create_task(farm())
 client.run(config['token'], bot=False)
