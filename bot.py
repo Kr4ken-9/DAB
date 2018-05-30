@@ -77,5 +77,5 @@ async def farm():
 with open('config.yaml', 'r') as file:
     config = yaml.load(file)
 
-#client.loop.create_task(farm())
+client.loop.create_task(farm())
 client.run(config['token'], bot=False)
