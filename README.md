@@ -7,7 +7,7 @@ NOTICE: Tatsumaki devs are spooper smart, this bot may be detected. However, if 
 Commands:
 
 | Command | Description                            |
-| ------- |:--------------------------------------:|
+|:-------:|:--------------------------------------:|
 | _add    | Add a channel to the farming list      |
 | _remove | Remove a channel from the farming list |
 | _save   | Save channels to config.yaml           |
@@ -15,12 +15,21 @@ Commands:
 Config Options:
 
 | Config         | Description                                                  |
-| --------------:|:------------------------------------------------------------:|
+|:--------------:|:------------------------------------------------------------:|
 | token          | User token for login                                         |
 | channels       | List of channels to farm in                                  |
 | silent         | Time before deleting farming messages                        |
 | delay          | Interval of farming messages                                 |
 | messages       | List of messages to use for farming                          |
 | randomchannels | Whether or not to shuffle order in which channels are farmed |
+| owners         | List of ids of discord users which can control the bot       |
 
-Additional config notes in config.yaml
+Rep Config Options:
+
+| Config    | Description                                                                    |
+|:---------:|:------------------------------------------------------------------------------:|
+| recipient | ID of discord user who will be receiving rep from the bot                      |
+| channel   | ID of discord channel which the rep will be sent in                            |
+| delay     | Interval (in seconds) in which the rep will be sent (random format in example) |
+
+Additional config notes in config.yaml or repconfig.yaml
