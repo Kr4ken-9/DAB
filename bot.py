@@ -73,9 +73,29 @@ async def farm():
 
         await asyncio.sleep(config['delay'])
 
+async def rep():
+    await client.wait_until_ready()
+
+    while not client.is_closed:
+        if repconfig['recipient'] == 0:
+            return
+
+        channel = discord.Object(id=repconfig['channel'])
+        await client.send_message(channel, f"t!rep <@{repconfig['recipient']}>")
+
+        if type(repconfig['delay']) is list:
+            minmax = repconfig['delay']
+            await asyncio.sleep(rand.randint(minmax[0], minmax[1]))
+        else:
+            await asyncio.sleep(repconfig['delay'])
+
 
 with open('config.yaml', 'r') as file:
     config = yaml.load(file)
+    
+with open('repconfig.yaml', 'r') as file:
+    repconfig = yaml.load(file)
 
 client.loop.create_task(farm())
+client.loop.create_task(rep())
 client.run(config['token'], bot=False)
