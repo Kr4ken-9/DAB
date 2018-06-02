@@ -6,7 +6,6 @@ import random
 client = discord.Client()
 rand = random.SystemRandom()
 
-
 @client.event
 async def on_ready():
     print('Logged in as')
@@ -75,13 +74,15 @@ async def farm():
 
 async def rep():
     await client.wait_until_ready()
-
+    
+    if not repconfig['recipients']:
+        return
+    
+    users = user_generator(repconfig['recipients'])
+    
     while not client.is_closed:
-        if repconfig['recipient'] == 0:
-            return
-
         channel = discord.Object(id=repconfig['channel'])
-        await client.send_message(channel, f"t!rep <@{repconfig['recipient']}>")
+        await client.send_message(channel, f"t!rep <@{next(users)}>")
 
         if type(repconfig['delay']) is list:
             minmax = repconfig['delay']
@@ -89,6 +90,14 @@ async def rep():
         else:
             await asyncio.sleep(repconfig['delay'])
 
+def user_generator(users):
+    random.shuffle(users)
+    c = 0;
+    while True:
+        yield users[c]
+        c += 1
+        if c >= len(users):
+            c = 0
 
 with open('config.yaml', 'r') as file:
     config = yaml.load(file)
@@ -98,4 +107,5 @@ with open('repconfig.yaml', 'r') as file:
 
 client.loop.create_task(farm())
 client.loop.create_task(rep())
+
 client.run(config['token'], bot=False)
