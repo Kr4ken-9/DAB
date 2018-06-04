@@ -1,7 +1,7 @@
 import discord
 import asyncio
-import yaml
 import random
+import config
 
 client = discord.Client()
 rand = random.SystemRandom()
@@ -16,7 +16,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author.id != client.user.id and message.author.id not in config['owners']:
+    if message.author.id != client.user.id and message.author.id not in _config['owners']:
         return
 
     if message.author.id != client.user.id and message.content.startswith('|'):
@@ -24,53 +24,53 @@ async def on_message(message):
         return
 
     if message.content.startswith('_add'):
-        config['channels'].append(message.channel.id)
+        _config['channels'].append(message.channel.id)
 
     if message.content.startswith('_remove'):
-        config['channels'].remove(message.channel.id)
+        _config['channels'].remove(message.channel.id)
 
     if message.content.startswith('_save'):
-        with open('config.yaml', 'w') as file:
-            file.write(yaml.dump(config))
+        config.save_config('config.yaml', _config)
+        config.save_config('repcofnig.yaml', repconfig)
 
 
 async def farm():
     await client.wait_until_ready()
 
     while not client.is_closed:
-        if len(config['channels']) == 0:
-            if type(config['delay']) is list:
-                minmax = config['delay']
+        if len(_config['channels']) == 0:
+            if type(_config['delay']) is list:
+                minmax = _config['delay']
                 await asyncio.sleep(rand.randint(minmax[0], minmax[1]))
                 continue
 
-            await asyncio.sleep(config['delay'])
+            await asyncio.sleep(_config['delay'])
             continue
 
-        channels = config['channels']
-        if config['randomchannels']:
+        channels = _config['channels']
+        if _config['randomchannels']:
             rand.shuffle(channels)
 
         for schannel in channels:
             channel = discord.Object(id=schannel)
-            message = await client.send_message(channel, rand.choice(config['messages']))
+            message = await client.send_message(channel, rand.choice(_config['messages']))
 
-            if config['silent']:
-                if type(config['silent']) is list:
-                    minmax = config['silent']
+            if _config['silent']:
+                if type(_config['silent']) is list:
+                    minmax = _config['silent']
                     await asyncio.sleep(rand.randint(minmax[0], minmax[1]))
                 else:
-                    if config['silent'] > 0:
-                        await asyncio.sleep(config['silent'])
+                    if _config['silent'] > 0:
+                        await asyncio.sleep(_config['silent'])
 
                 await client.delete_message(message)
 
-        if type(config['delay']) is list:
-            minmax = config['delay']
+        if type(_config['delay']) is list:
+            minmax = _config['delay']
             await asyncio.sleep(rand.randint(minmax[0], minmax[1]))
             continue
 
-        await asyncio.sleep(config['delay'])
+        await asyncio.sleep(_config['delay'])
 
 async def rep():
     await client.wait_until_ready()
@@ -99,13 +99,10 @@ def user_generator(users):
         if c >= len(users):
             c = 0
 
-with open('config.yaml', 'r') as file:
-    config = yaml.load(file)
-    
-with open('repconfig.yaml', 'r') as file:
-    repconfig = yaml.load(file)
+_config = config.load_config('config.yaml')
+repconfig = config.load_config('repconfig.yaml')
 
 client.loop.create_task(farm())
 client.loop.create_task(rep())
 
-client.run(config['token'], bot=False)
+client.run(_config['token'], bot=False)
