@@ -3,8 +3,12 @@ import asyncio
 import random
 import config
 
+global client
+global _config
+global repconfig
 client = discord.Client()
 rand = random.SystemRandom()
+
 
 @client.event
 async def on_ready():
@@ -14,24 +18,6 @@ async def on_ready():
     print('------')
 
 
-@client.event
-async def on_message(message):
-    if message.author.id != client.user.id and message.author.id not in _config['owners']:
-        return
-
-    if message.author.id != client.user.id and message.content.startswith('|'):
-        await client.send_message(message.channel, message.content[1:])
-        return
-
-    if message.content.startswith('_add'):
-        _config['channels'].append(message.channel.id)
-
-    if message.content.startswith('_remove'):
-        _config['channels'].remove(message.channel.id)
-
-    if message.content.startswith('_save'):
-        config.save_config('config.yaml', _config)
-        config.save_config('repcofnig.yaml', repconfig)
 
 
 async def farm():
@@ -52,6 +38,9 @@ async def farm():
             rand.shuffle(channels)
 
         for schannel in channels:
+            if not isinstance(schannel, int):
+                break
+
             channel = discord.Object(id=schannel)
             message = await client.send_message(channel, rand.choice(_config['messages']))
 
@@ -72,17 +61,23 @@ async def farm():
 
         await asyncio.sleep(_config['delay'])
 
+
 async def rep():
     await client.wait_until_ready()
     
     if not repconfig['recipients']:
         return
-    
-    users = user_generator(repconfig['recipients'])
+
+    if len(repconfig['recipients']) > 1:
+        users = user_generator(repconfig['recipients'])
     
     while not client.is_closed:
         channel = discord.Object(id=repconfig['channel'])
-        await client.send_message(channel, f"t!rep <@{next(users)}>")
+
+        if len(repconfig['recipients']) > 1:
+            await client.send_message(channel, f"t!rep <@{next(users)}>")
+        else:
+            await client.send_message(channel, f"t!rep <@{(repconfig['recipients'])[0]}>")
 
         if type(repconfig['delay']) is list:
             minmax = repconfig['delay']
@@ -90,14 +85,19 @@ async def rep():
         else:
             await asyncio.sleep(repconfig['delay'])
 
+
 def user_generator(users):
     random.shuffle(users)
-    c = 0;
+    c = 0
     while True:
         yield users[c]
         c += 1
         if c >= len(users):
             c = 0
+
+
+if not config.check_config('config.yaml'):
+    config.assemble_config()
 
 _config = config.load_config('config.yaml')
 repconfig = config.load_config('repconfig.yaml')
