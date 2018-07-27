@@ -1,3 +1,3 @@
-channel: null
-delay: [1, 5]
-recipients: ['224238284593823745']
+recipients: [224238284593823745, 120420368770007040] # Simply leave the list empty to disable.
+channel: 435949310610374661
+delay: [1, 5] # min max delay for rep in seconds
