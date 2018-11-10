@@ -91,6 +91,9 @@ def user_generator(users):
         if c >= len(users):
             c = 0
 
+
+config.replace_example('config.yaml')
+
 _config = config.load_config('config.yaml')
 repconfig = config.load_config('repconfig.yaml')
 
