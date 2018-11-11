@@ -35,6 +35,11 @@ def save_config(path, config):
 
 
 def is_example(path):
+    """Determines whether the given config file is an example
+
+    :param path: Path to the config file
+    :return: Whether or not the config file is an example
+    """
     if check_config(path):
         c = load_config(path)
 
@@ -47,15 +52,11 @@ def is_example(path):
 
 
 def populate_config(yaml_conf):
-    # Steps:
-    # 1. Populate easy elements
-    #   1. Token
-    #   2. Channel
-    #   3. Silent
-    #   4. Delay
-    #   5. Message
-    #   6. Random Channels
-    #   7. Owner
+    """Populates a new config with user input via commandline
+
+    :param yaml_conf: An example config to replace values of
+    :return: A populated config
+    """
 
     print("This appears to be your first time running TatsumakiFarmer. Please populate the config manually or through these steps.")
     token = input("Enter the token: ")
@@ -68,9 +69,15 @@ def populate_config(yaml_conf):
     print("You can manually configure TatsumakiFarmer later to delete messages after a random amount of time (See Documentation)")
     silent = input("Enter a number or 'False' to disable silence: ")
 
+    silent = utils.string_to_bool(silent)
+
+    # If user didn't disable silence, convert it to integer
+    if not isinstance(silent, bool):
+        silent = int(silent)
+
     print("\nThe next configuration option is delay. This is the interval in which farming messages are sent.")
     print("Delay can be configured manually to send messages at random intervals (See Documentation)")
-    delay = input("Please enter a number (in seconds) in which messages will be sent: ")
+    delay = int(input("Please enter a number (in seconds) in which messages will be sent: "))
 
     print("\nThe next configuration option is messages. Enter a message below that TatsumakiFarmer will use to farm.")
     print("This is an important option because some bots require a certain amount of characters to award points and such.")
@@ -87,9 +94,11 @@ def populate_config(yaml_conf):
     owners = []
     owners.append(input("Enter the id: "))
 
+    print("")
+
     yaml_conf['token'] = token
     yaml_conf['channels'] = channels
-    yaml_conf['silent'] = utils.string_to_bool(silent)
+    yaml_conf['silent'] = silent
     yaml_conf['delay'] = delay
     yaml_conf['messages'] = messages
     yaml_conf['randomchannels'] = utils.string_to_bool(randomchannels)
@@ -99,17 +108,20 @@ def populate_config(yaml_conf):
 
 
 def replace_example(path):
-    # Steps:
-    # 1. Check if config is an example
-    # 2. If example, create new config
-    # 3. Populate new config via commandline
-    # 4. Replace example with populated config
+    """Replace example config with working config
 
+    :param path: Path to example config
+    """
+
+    # Skip the config file if it's not an example
     if not is_example(path):
         return
 
+    # Load the yaml of the example config
     oldconfig = load_config(path)
 
+    # Replace example contents with working contents
     populated_config = populate_config(oldconfig)
 
+    # Replace example config with working config
     save_config(path, populated_config)

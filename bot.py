@@ -2,10 +2,12 @@ import discord
 import asyncio
 import random
 import config
+import repconfig
 import commands
 
 client = discord.Client()
 rand = random.SystemRandom()
+
 
 @client.event
 async def on_ready():
@@ -63,24 +65,30 @@ async def farm():
 
         await asyncio.sleep(_config['delay'])
 
+
 async def rep():
     """Send messages to add rep to the configured person at a configured interval"""
     await client.wait_until_ready()
-    
-    if not repconfig['recipients']: # If disabled in configuration, don't proceed
+
+    # If disabled in configuration, don't proceed
+    if not repconfig['recipients']:
         return
     
     users = user_generator(repconfig['recipients'])
     
     while not client.is_closed:
         channel = discord.Object(id=repconfig['channel'])
-        await client.send_message(channel, f"t!rep <@{next(users)}>") # Send a message adding rep to the configured person
 
-        if type(repconfig['delay']) is list: # Delay the loop if configured
+        # Send a message adding rep to the configured person
+        await client.send_message(channel, f"t!rep <@{next(users)}>")
+
+        # Delay the loop if configured
+        if type(repconfig['delay']) is list:
             minmax = repconfig['delay']
             await asyncio.sleep(rand.randint(minmax[0], minmax[1]))
         else:
             await asyncio.sleep(repconfig['delay'])
+
 
 def user_generator(users):
     random.shuffle(users)
@@ -93,6 +101,7 @@ def user_generator(users):
 
 
 config.replace_example('config.yaml')
+repconfig.replace_example('repconfig.yaml')
 
 _config = config.load_config('config.yaml')
 repconfig = config.load_config('repconfig.yaml')
