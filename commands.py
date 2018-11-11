@@ -27,5 +27,5 @@ def handle_command(client, message, configs):
         _config['channels'].remove(message.channel.id)
 
     if message.content.startswith('_save'):
-        config.save_config('config.yaml', _config)
-        config.save_config('repconfig.yaml', repconfig)
+        config.save_config('configs/config.yaml', _config)
+        config.save_config('configs/repconfig.yaml', repconfig)

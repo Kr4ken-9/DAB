@@ -8,6 +8,9 @@ import commands
 client = discord.Client()
 rand = random.SystemRandom()
 
+configpath = 'configs/config.yaml'
+repconfigpath = 'configs/repconfig.yaml'
+
 
 @client.event
 async def on_ready():
@@ -100,11 +103,11 @@ def user_generator(users):
             c = 0
 
 
-config.replace_example('config.yaml')
-repconfig.replace_example('repconfig.yaml')
+config.replace_example(configpath)
+repconfig.replace_example(repconfigpath)
 
-_config = config.load_config('config.yaml')
-repconfig = config.load_config('repconfig.yaml')
+_config = config.load_config(configpath)
+repconfig = config.load_config(repconfigpath)
 
 client.loop.create_task(farm())
 client.loop.create_task(rep())

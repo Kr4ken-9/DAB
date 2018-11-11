@@ -1,0 +1,3 @@
+recipients: [224238284593823745, 120420368770007040] # Leave list empty or set as 'False' to disable
+channel: 435949310610374661
+delay: [1, 5] # [min, max] format also accepted, in seconds
