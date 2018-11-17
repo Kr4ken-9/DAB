@@ -1,0 +1,11 @@
+enabled: true
+channels: ["435949310610374661"]
+delay: 5
+messages: [I like noodles!, David has 12 bowling balls, "Are you a sloth?"]
+owners: ["120420368770007040"]
+randomchannels: true
+silent: false
+repfarming: true
+recipients: [120420368770007040]
+repchannel: 435949310610374661
+repdelay: [5, 10]

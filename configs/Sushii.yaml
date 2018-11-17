@@ -1,0 +1,8 @@
+repfarming: true
+fishyfarming: true
+channel: 435949310610374661
+silent: [1, 5]
+repdelay: [5, 10]
+fishydelay: [5, 10]
+reprecipients: [120420368770007040]
+fishyrecipients: [120420368770007040, 271433321077014529]
