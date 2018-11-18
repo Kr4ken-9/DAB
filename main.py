@@ -1,7 +1,7 @@
 import discord
 from src import config
-from src.tatsumaki import tatsumaki
-from src.sushii import sushii
+from src.tatsumaki import tatsumaki, tatconfig
+from src.sushii import sushii, sushiiconfig
 
 client = discord.Client()
 
@@ -26,10 +26,15 @@ async def on_message(message):
 tat = tatsumaki.Tatsumaki(client)
 sush = sushii.Sushii(client)
 
+shared = config.Config("Configs/Shared.yaml")
+tatconf = tatconfig.Tatconfig("Configs/Tatsumaki.yaml")
+sushconf = sushiiconfig.Sushiiconfig("Configs/Sushii.yaml")
+
+tatconf.replace_example()
+sushconf.replace_example()
+
 client.loop.create_task(tat.farm())
 client.loop.create_task(tat.rep())
 client.loop.create_task(sush.rep())
 client.loop.create_task(sush.fishy())
-
-_config = config.Config("Configs/Shared.yaml").load_config()
-client.run(_config["token"], bot=False)
+client.run(shared.load_config()["token"], bot=False)

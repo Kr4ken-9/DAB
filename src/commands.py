@@ -1,10 +1,7 @@
-from src.tatsumaki import config
-
-
 def handle_command(client, message, configs):
     """Check if incoming message is a command and handle it if it is.
 
-    :param client: Farmer"s discord client
+    :param client: Farmer's discord client
     :param message: Incoming messasge
     :param configs: List of configurations
     """
@@ -14,7 +11,7 @@ def handle_command(client, message, configs):
     if message.author.id != client.user.id and message.author.id not in _config["owners"]:
         return
 
-    if message.author.id != client.user.id and message.content.startswith("|"):
+    if message.content.startswith("|"):
         client.send_message(message.channel, message.content[1:])
         return
 
@@ -23,7 +20,3 @@ def handle_command(client, message, configs):
 
     if message.content.startswith("_remove"):
         _config["channels"].remove(message.channel.id)
-
-    if message.content.startswith("_save"):
-        config.save_config("configs/config.yaml", _config)
-        config.save_config("configs/repconfig.yaml", repconfig)

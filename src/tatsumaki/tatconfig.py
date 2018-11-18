@@ -11,12 +11,16 @@ class Tatconfig(config.Config):
         if self.check_config():
             c = self.load_config()
 
-            if c["token"] == "x":
-                return True
-
-            return False
+            return c["firsttime"]
 
         return True
+
+    def save_token(self, token):
+        sharedconfig = config.Config("Configs/Shared.yaml")
+        newconfig = sharedconfig.load_config()
+        newconfig["token"] = token
+
+        sharedconfig.save_config(newconfig)
 
     def populate_config(self, yaml_conf):
         """Populates a new config with user input via commandline
@@ -27,6 +31,8 @@ class Tatconfig(config.Config):
 
         print("This appears to be your first time running TatsumakiFarmer. Please populate the config manually or through these steps.")
         token = input("Enter the token: ")
+
+        self.save_token(token)
 
         channels = []
         channels.append(input("\nEnter the channel id to farm in: "))
@@ -61,8 +67,8 @@ class Tatconfig(config.Config):
         owners = []
         owners.append(input("Enter the id: "))
 
+        yaml_conf["firsttime"] = False
         yaml_conf["enabled"] = True
-        yaml_conf["token"] = token
         yaml_conf["channels"] = channels
         yaml_conf["silent"] = silent
         yaml_conf["delay"] = delay

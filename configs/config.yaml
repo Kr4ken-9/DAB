@@ -1,7 +1,0 @@
-token: x
-channels: ['x', 'y', 'z']
-silent: [1, 3] # Use a single negative number for instant silence, use a single number for non-random silence
-delay: 2 # Random delay like so: delay: [x, y] (This will pick a random delay between x and y)
-messages: ['I like noodles!', 'David has 12 bowling balls', 'Are you a sloth?']
-randomchannels: true
-owners: ['x', 'y', 'z']
