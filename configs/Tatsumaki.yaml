@@ -1,12 +1,6 @@
 firsttime: true
-enabled: true
 repfarming: true
-randomchannels: true
-channels: ['435949310610374661']
-repchannel: '435949310610374661'
-owners: ['120420368770007040']
+channel: '435949310610374661'
 recipients: ['120420368770007040']
-messages: [I like noodles]
-delay: 5
 repdelay: 5
 silent: 3
