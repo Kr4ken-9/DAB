@@ -26,14 +26,17 @@ class Sushii():
             channel = discord.Object(id=self.config["channel"])
 
             # Send a message adding rep to the configured person
-            await self.client.send_message(channel, f"-rep <@{next(users)}>")
+            message = await self.client.send_message(channel, f"-rep <@{next(users)}>")
+
+            # Wait for any configured delays before deleting the message, if configured
+            if self.config["silent"]:
+                await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
+
+                # Delete the message after any configured delays
+                await self.client.delete_message(message)
 
             # Delay the loop if configured
-            if type(self.config["repdelay"]) is list:
-                minmax = self.config["repdelay"]
-                await asyncio.sleep(self.rand.randint(minmax[0], minmax[1]))
-            else:
-                await asyncio.sleep(self.config["repdelay"])
+            await asyncio.sleep(utils.get_delay(self.config["repdelay"], self.rand))
 
     async def fishy(self):
         """Send messages to add fishies to the configured person at a configured interval"""
@@ -49,11 +52,14 @@ class Sushii():
             channel = discord.Object(id=self.config["channel"])
 
             # Send a message adding fishies to the configured person
-            await self.client.send_message(channel, f"-fishy <@{next(users)}>")
+            message = await self.client.send_message(channel, f"-fishy <@{next(users)}>")
+
+            # Wait for any configured delays before deleting the message, if configured
+            if self.config["silent"]:
+                await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
+
+                # Delete the message after any configured delays
+                await self.client.delete_message(message)
 
             # Delay the loop if configured
-            if type(self.config["fishydelay"]) is list:
-                minmax = self.config["fishydelay"]
-                await asyncio.sleep(self.rand.randint(minmax[0], minmax[1]))
-            else:
-                await asyncio.sleep(self.config["fishydelay"])
+            await asyncio.sleep(utils.get_delay(self.config["fishydelay"], self.rand))

@@ -1,2 +1,5 @@
 discord.py==0.16.12
 pyyaml
+requests
+Pillow
+imagehash

@@ -1,0 +1,7 @@
+firsttime: true
+enabled: true
+randomchannels: true
+channels: ['435949310610374661']
+messages: [I like noodles]
+delay: 5
+silent: 3
