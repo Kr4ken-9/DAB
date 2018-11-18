@@ -3,6 +3,7 @@ from src import config
 from src.tatsumaki import tatsumaki, tatconfig
 from src.sushii import sushii, sushiiconfig
 from src.messages import messages, messagesconfig
+from src.pokecord import pokecord, pokeconfig
 
 client = discord.Client()
 
@@ -22,20 +23,24 @@ async def on_message(message):
     :param message: Incoming message
     """
     #commands.handle_command(client, message, [_config, repconfig])
+    await poke.find_pokemon(message)
 
 
 tat = tatsumaki.Tatsumaki(client)
 sush = sushii.Sushii(client)
 mess = messages.Messages(client)
+poke = pokecord.Pokecord(client)
 
 shared = config.Config("Configs/Shared.yaml")
 tatconf = tatconfig.Tatconfig("Configs/Tatsumaki.yaml")
 sushconf = sushiiconfig.Sushiiconfig("Configs/Sushii.yaml")
 mconf = messagesconfig.MessagesConfig("Configs/Messages.yaml")
+pokeconf = pokeconfig.PokeConfig("Configs/Pokecord.yaml")
 
 tatconf.replace_example()
 sushconf.replace_example()
 mconf.replace_example()
+pokeconf.replace_example()
 
 client.loop.create_task(mess.farm())
 client.loop.create_task(tat.rep())

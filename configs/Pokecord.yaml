@@ -1,0 +1,5 @@
+firsttime: false
+enabled : true
+autocatch: true
+prefix: {513741591802806292: 'p!'}
+channels: ['513741591802806292']

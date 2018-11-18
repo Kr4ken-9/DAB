@@ -8,7 +8,7 @@ from src.messages import messagesconfig
 class Messages:
     def __init__(self, client):
         self.client = client
-        m = messagesconfig.MessagesConfig("Configs/Tatsumaki.yaml")
+        m = messagesconfig.MessagesConfig("Configs/Messages.yaml")
         self.config = m.load_config()
         self.rand = random.SystemRandom()
 
