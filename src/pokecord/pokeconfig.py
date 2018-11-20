@@ -35,15 +35,21 @@ class PokeConfig(config.Config):
 
         yaml_conf["enabled"] = enabled
 
-        autocatch = input("\nEnter 'True' or 'False' to enable/disable auto catching.: ")
-        yaml_conf["autocatch"] = autocatch
-
         if not enabled:
             print("\nPokecord farming disabled.")
             return yaml_conf
 
+        autocatch = input("\nEnter 'True' or 'False' to enable/disable auto catching: ")
+        yaml_conf["autocatch"] = autocatch
+
+        print("\nNext, configure the autocatch delay. This is the delay between a pokemon appearing and when the bot catches it.")
+        print("This can make the bot appear more legit since it's not immediately catching them.")
+        autocatchdelay = input("Enter the delay, in seconds, for autocatch: ")
+        yaml_conf["autocatchdelay"] = autocatchdelay
+
         channels = []
         channels.append(input("\nEnter the channel id to farm in: "))
+        yaml_conf["channels"] = channels
 
         prefixes = {}
         prefix = input("Enter the prefix for pokecord in that channel (default is p!): ")
@@ -61,7 +67,6 @@ class PokeConfig(config.Config):
         if not isinstance(silent, bool):
             silent = int(silent)
 
-        yaml_conf["channels"] = channels
         yaml_conf["silent"] = silent
 
         return yaml_conf

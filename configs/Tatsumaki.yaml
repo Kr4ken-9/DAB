@@ -1,6 +1,6 @@
-firsttime: true
+firsttime: false
 repfarming: true
 channel: '435949310610374661'
 recipients: ['120420368770007040']
-repdelay: 5
+delay: 1440
 silent: 3

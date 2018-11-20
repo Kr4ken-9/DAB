@@ -1,4 +1,5 @@
 import random
+import asyncio
 
 import requests
 from io import BytesIO
@@ -74,8 +75,19 @@ class Pokecord:
         # So we pass the hash and get the name of the Pokemon
         pokemon = self.hashes[hash]
 
+        prefixes = self.config["prefixes"]
+        prefix = prefixes[channel.id]
+
+        # Wait for any configured delays before catching the pokemon
+        await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+
         # Catch the pokemon
-        await self.client.send_message(channel, f";catch {pokemon}")
+        message = await self.client.send_message(channel, f"{prefix}catch {pokemon}")
+
+        if self.config["silent"]:
+            await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
+
+            await self.client.delete_message(message)
 
     @staticmethod
     def load_json(path):
