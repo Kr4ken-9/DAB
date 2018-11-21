@@ -1,22 +1,14 @@
-def handle_command(client, message, configs):
+def handle_command(client, message, config):
     """Check if incoming message is a command and handle it if it is.
 
     :param client: Farmer's discord client
-    :param message: Incoming messasge
-    :param configs: List of configurations
+    :param message: Incoming message
+    :param config: YAML Configuration
     """
-    _config = configs[0]
-    repconfig = configs[1]
 
-    if message.author.id != client.user.id and message.author.id not in _config["owners"]:
+    if message.author.id != client.user.id and message.author.id not in config["owners"]:
         return
 
     if message.content.startswith("|"):
         client.send_message(message.channel, message.content[1:])
         return
-
-    if message.content.startswith("_add"):
-        _config["channels"].append(message.channel.id)
-
-    if message.content.startswith("_remove"):
-        _config["channels"].remove(message.channel.id)

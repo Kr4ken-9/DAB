@@ -3,5 +3,5 @@ enabled: true
 randomchannels: true
 channels: ['435949310610374661']
 messages: [I like noodles]
-delay: 5
+delay: 120
 silent: 3

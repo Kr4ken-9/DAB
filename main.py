@@ -1,5 +1,5 @@
 import discord
-from src import config
+from src import config, commands
 from src.tatsumaki import tatsumaki, tatconfig
 from src.sushii import sushii, sushiiconfig
 from src.messages import messages, messagesconfig
@@ -22,7 +22,7 @@ async def on_message(message):
 
     :param message: Incoming message
     """
-    #commands.handle_command(client, message, [_config, repconfig])
+    commands.handle_command(client, message, shared)
     await poke.find_pokemon(message)
 
 

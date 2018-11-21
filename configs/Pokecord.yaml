@@ -1,4 +1,4 @@
-firsttime: false
+firsttime: true
 enabled : true
 autocatch: true
 autocatchdelay: [1, 3]
