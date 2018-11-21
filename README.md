@@ -55,3 +55,7 @@ how to use the bot, and how it works.
 [Pokecord.yaml Configuration](docs/Pokecord.md)
 
 [Additional Notes](docs/Additional.md)
+
+### Thanks
+
+Thanks @ExtraConcentratedJuice for your single contribution: https://github.com/Kr4ken-9/DAB/commit/13c38e058818d35334307d947088c70ae5a43233
