@@ -44,14 +44,14 @@ You will most likely get better results configuring it manually. (See Help)
 Please look at the configuration documentation to help you understand both
 how to use the bot, and how it works.
 
-[Shared.yaml Configuration](Shared.md)
+[Shared.yaml Configuration](docs/Shared.md)
 
-[Messages.yaml Configuration](Messages.md)
+[Messages.yaml Configuration](docs/Messages.md)
 
-[Tatsumaki.yaml Configuration](Tatsumaki.md)
+[Tatsumaki.yaml Configuration](docs/Tatsumaki.md)
 
-[Sushii.yaml Configuration](Sushii.md)
+[Sushii.yaml Configuration](docs/Sushii.md)
 
-[Pokecord.yaml Configuration](Pokecord.md)
+[Pokecord.yaml Configuration](docs/Pokecord.md)
 
-[Additional Notes](Additional.md)
+[Additional Notes](docs/Additional.md)
