@@ -19,6 +19,21 @@ class Pokecord:
         self.rand = random.SystemRandom()
         self.hashes = self.load_json("pokebois.json")
 
+    def pokecord_check(self, message):
+        # If the message is coming from a channel not configured, ignore
+        if message.channel.id not in self.config["channels"]:
+            return False
+
+        # If the message isn't send by Pokecord bot, ignore
+        if not message.author.id == "365975655608745985":
+            return False
+
+        # If the message doesn't have an embed, ignore
+        if len(message.embeds) != 1:
+            return False
+
+        return True
+
     async def find_pokemon(self, message):
         """Filter messages to find catchable pokemon, and catch them
 
@@ -29,18 +44,6 @@ class Pokecord:
 
         # If disabled, return
         if not self.config["enabled"] or not self.config["autocatch"]:
-            return
-
-        # If the message is coming from a channel not configured, ignore
-        if message.channel.id not in self.config["channels"]:
-            return
-
-        # If the message isn't send by Pokecord bot, ignore
-        if not message.author.id == "365975655608745985":
-            return
-
-        # If the message doesn't have an embed, ignore
-        if len(message.embeds) != 1:
             return
 
         embed = message.embeds[0]
@@ -58,7 +61,7 @@ class Pokecord:
         await self.catch(message.channel, Image.open(BytesIO(image.content)))
 
     async def catch(self, channel, png):
-        """
+        """Catch that pokeman and release it if it's garbage
 
         :param channel: Channel to catch the pokemon in
         :param png: Image to identify
@@ -75,6 +78,7 @@ class Pokecord:
         # So we pass the hash and get the name of the Pokemon
         pokemon = self.hashes[hash]
 
+        # Get the prefix for this channel
         prefixes = self.config["prefixes"]
         prefix = prefixes[channel.id]
 
@@ -84,10 +88,50 @@ class Pokecord:
         # Catch the pokemon
         message = await self.client.send_message(channel, f"{prefix}catch {pokemon}")
 
+        # If configured, determine whether this pokeboi is worthy of keeping or not
+        if self.config["autorelease"]:
+            # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
+            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+
+            # Get info on the pokeboi we just caught
+            await self.client.send_message(channel, f"{prefix}info latest")
+
+            # Process the pokecord reply
+            await self.release(prefix)
+
         if self.config["silent"]:
             await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
 
             await self.client.delete_message(message)
+
+    async def release(self, prefix):
+        """Release that garbage pokeman
+
+        :param prefix: Prefix for the channel you caught that pokeman in
+        """
+        # Get the pokecord reply with our pokeboi info
+        reply = await self.client.wait_for_message(check=self.pokecord_check)
+
+        # Get the embed where all the info is
+        embed = reply.embeds[0]
+
+        # Get the Total IV of the new pokeboi
+        IV = utils.get_IV(embed)
+
+        if float(IV) < self.config["minimumiv"]:
+            pokeman_number = utils.get_pokeman_number(embed)
+
+            # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
+            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+
+            # Release that garbage pokeman
+            await self.client.send_message(reply.channel, f"{prefix}release {pokeman_number}")
+
+            # MORE POKECORD COOLDOWNS
+            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+
+            # Confirm you have standards
+            await self.client.send_message(reply.channel, f"{prefix}confirm")
 
     @staticmethod
     def load_json(path):

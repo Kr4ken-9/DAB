@@ -30,3 +30,5 @@ rep farming is supported.
 | String  | Description                                                                                                     |
 |:-------:|:---------------------------------------------------------------------------------------------------------------:|
 | channel | Channel id in which Tatsumaki related things are farmed (Only one channel because they are mostly global stats) |
+
+Additional notes [here](Additional.md)

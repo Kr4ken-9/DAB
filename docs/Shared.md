@@ -8,3 +8,5 @@ Config Options:
 |:--------------:|:------------------------------------------------------------:|
 | token          | User token for login                                         |
 | owners         | List of ids of discord users which can control the bot       |
+
+Additional notes [here](Additional.md)

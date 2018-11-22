@@ -33,3 +33,5 @@ includes rep and fishies.
 | String  | Description                                                                                                  |
 |:-------:|:------------------------------------------------------------------------------------------------------------:|
 | channel | Channel id in which Sushii related things are farmed (Only one channel because they are mostly global stats) |
+
+Additional notes [here](Additional.md)

@@ -42,6 +42,14 @@ class PokeConfig(config.Config):
         autocatch = input("\nEnter 'True' or 'False' to enable/disable auto catching: ")
         yaml_conf["autocatch"] = autocatch
 
+        autorelease = input("\nEnter 'True' or 'False' to enable/disable auto releasing based on IV%: ")
+        yaml_conf["autorelease"] = autorelease
+
+        if autorelease:
+            minimumiv = input("\nEnter the minimum IV% for incoming pokemon (Without the %): ")
+
+            yaml_conf["minimumiv"] = int(minimumiv)
+
         print("\nNext, configure the autocatch delay. This is the delay between a pokemon appearing and when the bot catches it.")
         print("This can make the bot appear more legit since it's not immediately catching them.")
         autocatchdelay = input("Enter the delay, in seconds, for autocatch: ")

@@ -7,11 +7,12 @@ includes rep and fishies.
 
 ### Booleans (True/False)
 
-| Bool      | Description                                                        |
-|:---------:|:------------------------------------------------------------------:|
-| firsttime | Used for commandline configuration, disable to configure manually  |
-| enabled   | Whether or not all Pokecord related farming is enabled             |
-| autocatch | Whether or not automatic Pokemon catching is enabled               |
+| Bool        | Description                                                         |
+|:-----------:|:-------------------------------------------------------------------:|
+| firsttime   | Used for commandline configuration, disable to configure manually   |
+| enabled     | Whether or not all Pokecord related farming is enabled              |
+| autocatch   | Whether or not automatic Pokemon catching is enabled                |
+| autorelease | Whether or not automatic releasing of configured Pokemon is enabled |
 
 ### Integers
 
@@ -19,7 +20,7 @@ includes rep and fishies.
 |:----------------:|:----------------------------------------------------------------------------:|
 | autocatchdelay   | Delay, in seconds, before Pokemon are automatically caught                   |
 | silent           | Delay before a farming message is deleted                                    |
-
+| minimumiv        | Minimum IV required for pokemon not to be discarded by autorelease           |
 ### Lists
 
 | List     | Description                                          |
@@ -31,3 +32,5 @@ includes rep and fishies.
 | Dictionary | Description                                                       |
 |:----------:|:------------------------------------------------------------------|
 | prefixes   | Pokecord prefixes (values) corresponding with the channels (keys) |
+
+Additional notes [here](Additional.md)

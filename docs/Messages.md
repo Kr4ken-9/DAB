@@ -27,3 +27,5 @@ Configuration options used for message farming. Message farming is
 |:----------:|:----------------------------------------------------------------------------------------------------------:|
 | channels   | List of channel ids in which messages are sent in order to farm points                                     |
 | messages   | List of messages sent to configured channels to farm points (These should be as inconspicuous as possible) |
+
+Additional notes [here](Additional.md)

@@ -22,8 +22,10 @@ async def on_message(message):
 
     :param message: Incoming message
     """
-    commands.handle_command(client, message, shared)
-    await poke.find_pokemon(message)
+    #commands.handle_command(client, message, shared)
+
+    if poke.pokecord_check(message):
+        await poke.find_pokemon(message)
 
 
 tat = tatsumaki.Tatsumaki(client)
