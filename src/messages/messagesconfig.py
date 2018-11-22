@@ -30,15 +30,14 @@ class MessagesConfig(config.Config):
         :return: A populated config
         """
 
-        print("This appears to be your first time running TatsumakiFarmer. Please populate the config manually or through these steps.")
+        print("This appears to be your first time running DAB. Please populate the config manually or through these steps.")
         token = input("Enter the token: ")
 
         channels = []
         channels.append(input("\nEnter the channel id to farm in: "))
 
-        print("\nThe next configuration option is called silence. Enter a negative number to instantly delete farming messages.")
-        print("Enter a positive number to remove farming messages after that amount in seconds.")
-        print("You can manually configure TatsumakiFarmer later to delete messages after a random amount of time (See Documentation)")
+        print("\nThe next configuration option is called silence. Enter a positive number to remove farming messages after that amount in seconds.")
+        print("You can manually configure DAB later to delete messages after a random amount of time (See Documentation)")
         silent = input("Enter a number or 'False' to disable silence: ")
 
         silent = utils.string_to_bool(silent)
@@ -51,7 +50,7 @@ class MessagesConfig(config.Config):
         print("Delay can be configured manually to send messages at random intervals (See Documentation)")
         delay = int(input("Please enter a number (in seconds) in which messages will be sent: "))
 
-        print("\nThe next configuration option is messages. Enter a message below that TatsumakiFarmer will use to farm.")
+        print("\nThe next configuration option is messages. Enter a message below that DAB will use to farm.")
         print("This is an important option because some bots require a certain amount of characters to award points and such.")
         print("We will start with one message, you can later configure multiple (See Documentation)")
         messages = []
@@ -61,7 +60,7 @@ class MessagesConfig(config.Config):
         print("However, for this option to work, you must have manually configured multiple channels. 'False' will disable it.")
         randomchannels = input("Enter 'True' or 'False': ")
 
-        print("\nFinally, configure an owner for TatsumakiFarmer. This will be a user's id (probably you) which will control the bot.")
+        print("\nFinally, configure an owner for DAB. This will be a user's id (probably you) which will control the bot.")
         print("You can configure multiple owners manually (See Documentation)")
         owners = []
         owners.append(input("Enter the id: "))

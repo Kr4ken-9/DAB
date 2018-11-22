@@ -37,7 +37,7 @@ class Tatconfig(config.Config):
 
         print("\nThe next configuration option is called silence.")
         print("Enter a number to remove farming messages after that amount in seconds.")
-        print("You can manually configure TatsumakiFarmer later to delete messages after a random amount of time (See Documentation)")
+        print("You can manually configure DAB later to delete messages after a random amount of time (See Documentation)")
         silent = input("Enter a number or 'False' to disable silence: ")
         silent = utils.string_to_bool(silent)
 

@@ -39,9 +39,9 @@ sushconf = sushiiconfig.Sushiiconfig("Configs/Sushii.yaml")
 mconf = messagesconfig.MessagesConfig("Configs/Messages.yaml")
 pokeconf = pokeconfig.PokeConfig("Configs/Pokecord.yaml")
 
+mconf.replace_example()
 tatconf.replace_example()
 sushconf.replace_example()
-mconf.replace_example()
 pokeconf.replace_example()
 
 client.loop.create_task(mess.farm())
