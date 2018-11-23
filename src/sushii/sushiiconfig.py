@@ -2,6 +2,11 @@ from src import config, utils
 
 
 class Sushiiconfig(config.Config):
+    def __init__(self, path):
+        super().__init__(path)
+
+        self.replace_example()
+
     def is_example(self):
         """Determines whether the given config file is an example
 
@@ -38,6 +43,7 @@ class Sushiiconfig(config.Config):
             return yaml_conf
 
         channel = input("Enter the channel id to farm sushii rep and fishies: ")
+        yaml_conf["channel"] = int(channel)
 
         silent = input("\nNow enter the delay, in seconds, before farming messages are deleted, or 'False' to disable deleting them: ")
         silent = utils.string_to_bool(silent)
@@ -56,12 +62,12 @@ class Sushiiconfig(config.Config):
 
         reprecipients = []
         print("\nThe next option is who to farm sushii rep for. You can manually configure multiple recipients later.")
-        reprecipients.append(input("Enter the id of the user to farm rep for: "))
+        reprecipients.append(int(input("Enter the id of the user to farm rep for: ")))
         yaml_conf["reprecipients"] = reprecipients
 
         fishyrecipients = []
         print("\nFinally, configure who to farm sushii fishies for. You can manually configure multiple recipients later.")
-        fishyrecipients.append(input("Enter the id of the user to farm fishies for: "))
+        fishyrecipients.append(int(input("Enter the id of the user to farm fishies for: ")))
         yaml_conf["fishyrecipients"] = fishyrecipients
 
         return yaml_conf

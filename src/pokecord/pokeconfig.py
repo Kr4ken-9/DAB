@@ -2,6 +2,11 @@ from src import utils, config
 
 
 class PokeConfig(config.Config):
+    def __init__(self, path):
+        super().__init__(path)
+
+        self.replace_example()
+
     def is_example(self):
         """Determines whether the given config file is an example
 
@@ -47,10 +52,10 @@ class PokeConfig(config.Config):
         print("\nNext, configure the autocatch delay. This is the delay between a pokemon appearing and when the bot catches it.")
         print("This can make the bot appear more legit since it's not immediately catching them.")
         autocatchdelay = input("Enter the delay, in seconds, for autocatch: ")
-        yaml_conf["autocatchdelay"] = autocatchdelay
+        yaml_conf["autocatchdelay"] = int(autocatchdelay)
 
         channels = []
-        channels.append(input("\nEnter the channel id to farm in: "))
+        channels.append(int(input("\nEnter the channel id to farm in: ")))
         yaml_conf["channels"] = channels
 
         prefixes = {}

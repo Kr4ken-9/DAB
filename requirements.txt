@@ -1,4 +1,4 @@
-discord.py==0.16.12
+git+https://github.com/Rapptz/discord.py@860d6a9ace8248dfeec18b8b159e7b757d9f56bb
 pyyaml
 requests
 Pillow

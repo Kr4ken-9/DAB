@@ -22,18 +22,21 @@ class Sushii():
 
         users = utils.user_generator(self.config["reprecipients"])
 
-        while not self.client.is_closed:
-            channel = discord.Object(id=self.config["channel"])
+        while not self.client.is_closed():
+            channel = self.client.get_channel(self.config["channel"])
 
-            # Send a message adding rep to the configured person
-            message = await self.client.send_message(channel, f"-rep <@{next(users)}>")
+            # Get a random message from one of the configured ones
+            random_message = f"-rep <@{next(users)}>"
 
-            # Wait for any configured delays before deleting the message, if configured
+            # If configured, get the delay before deleting the message
             if self.config["silent"]:
-                await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
+                silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
-                # Delete the message after any configured delays
-                await self.client.delete_message(message)
+            # Send a random message in the configured channel
+            if self.config["silent"]:
+                await channel.send(random_message, delete_after=silent_delay)
+            else:
+                await channel.send(random_message)
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["repdelay"], self.rand))
@@ -48,18 +51,21 @@ class Sushii():
 
         users = utils.user_generator(self.config["fishyrecipients"])
 
-        while not self.client.is_closed:
-            channel = discord.Object(id=self.config["channel"])
+        while not self.client.is_closed():
+            channel = self.client.get_channel(self.config["channel"])
 
-            # Send a message adding fishies to the configured person
-            message = await self.client.send_message(channel, f"-fishy <@{next(users)}>")
+            # Get a random message from one of the configured ones
+            random_message = f"-fishy <@{next(users)}>"
 
-            # Wait for any configured delays before deleting the message, if configured
+            # If configured, get the delay before deleting the message
             if self.config["silent"]:
-                await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
+                silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
-                # Delete the message after any configured delays
-                await self.client.delete_message(message)
+            # Send a random message in the configured channel
+            if self.config["silent"]:
+                await channel.send(random_message, delete_after=silent_delay)
+            else:
+                await channel.send(random_message)
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["fishydelay"], self.rand))

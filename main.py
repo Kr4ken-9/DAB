@@ -1,46 +1,39 @@
 import discord
 from src import config, message_handler
-from src.tatsumaki import tatsumaki, tatconfig
-from src.sushii import sushii, sushiiconfig
-from src.messages import messages, messagesconfig
-from src.pokecord import pokecord, pokeconfig
-
-client = discord.Client()
+from src.tatsumaki import tatsumaki
+from src.sushii import sushii
+from src.messages import messages
+from src.pokecord import pokecord
 
 
-@client.event
-async def on_ready():
-    print("Logged in as")
-    print(client.user.name)
-    print(client.user.id)
-    print("------")
+class DAB(discord.Client):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.messages = messages.Messages(self)
+        self.tatsumaki = tatsumaki.Tatsumaki(self)
+        self.sushii = sushii.Sushii(self)
+        self.pokecord = pokecord.Pokecord(self)
+        self.MessageHandler = message_handler.MessageHandler(self, shared.load_config(), self.pokecord)
 
+        self.start_background_tasks()
 
-@client.event
-async def on_message(message):
-    await MessageHandler.handle_message(message)
+    def start_background_tasks(self):
+        self.loop.create_task(self.messages.farm())
+        self.loop.create_task(self.tatsumaki.rep())
+        self.loop.create_task(self.sushii.rep())
+        self.loop.create_task(self.sushii.fishy())
 
+    async def on_ready(self):
+        print("Logged in as")
+        print(self.user.name)
+        print(self.user.id)
+        print("------")
 
-tat = tatsumaki.Tatsumaki(client)
-sush = sushii.Sushii(client)
-mess = messages.Messages(client)
-poke = pokecord.Pokecord(client)
+    async def on_message(self, message):
+        await self.MessageHandler.handle_message(message)
+
 
 shared = config.Config("Configs/Shared.yaml")
-tatconf = tatconfig.Tatconfig("Configs/Tatsumaki.yaml")
-sushconf = sushiiconfig.Sushiiconfig("Configs/Sushii.yaml")
-mconf = messagesconfig.MessagesConfig("Configs/Messages.yaml")
-pokeconf = pokeconfig.PokeConfig("Configs/Pokecord.yaml")
 
-mconf.replace_example()
-tatconf.replace_example()
-sushconf.replace_example()
-pokeconf.replace_example()
-
-MessageHandler = message_handler.MessageHandler(client, shared.load_config(), poke)
-
-client.loop.create_task(mess.farm())
-client.loop.create_task(tat.rep())
-client.loop.create_task(sush.rep())
-client.loop.create_task(sush.fishy())
+client = DAB()
 client.run(shared.load_config()["token"], bot=False)

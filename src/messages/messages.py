@@ -16,7 +16,7 @@ class Messages:
         """Send messages according to yaml config specifying frequency, channel, etc"""
         await self.client.wait_until_ready()
 
-        while not self.client.is_closed:
+        while not self.client.is_closed():
             # Don"t proceed if no channels are configured
             if len(self.config["channels"]) == 0 or not self.config["enabled"]:
                 return
@@ -28,14 +28,20 @@ class Messages:
 
             for schannel in channels:
                 # Create a channel object of the configured channel id
-                channel = discord.Object(id=schannel)
-                # Send a random message in the configured channel
-                message = await self.client.send_message(channel, self.rand.choice(self.config["messages"]))
+                channel = self.client.get_channel(schannel)
 
-                # Wait for any configured delays before deleting the message, if configured
+                # Get a random message from one of the configured ones
+                random_message = self.rand.choice(self.config["messages"])
+
+                # If configured, get the delay before deleting the message
                 if self.config["silent"]:
-                    await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
-                    await self.client.delete_message(message)
+                    silent_delay = utils.get_delay(self.config["silent"], self.rand)
+
+                # Send a random message in the configured channel
+                if self.config["silent"]:
+                    await channel.send(random_message, delete_after=silent_delay)
+                else:
+                    await channel.send(random_message)
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))

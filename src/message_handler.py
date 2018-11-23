@@ -23,5 +23,4 @@ class MessageHandler:
             return
 
         if message.content.startswith("|"):
-            self.client.send_message(message.channel, message.content[1:])
-            return
+            message.channel.send(message.content[1:])

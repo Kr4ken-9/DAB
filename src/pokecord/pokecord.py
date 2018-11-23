@@ -86,7 +86,7 @@ class Pokecord:
         await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
 
         # Catch the pokemon
-        message = await self.client.send_message(channel, f"{prefix}catch {pokemon}")
+        await channel.send(f"{prefix}catch {pokemon}")
 
         # If configured, determine whether this pokeboi is worthy of keeping or not
         if self.config["autorelease"]:
@@ -94,7 +94,7 @@ class Pokecord:
             await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
 
             # Get info on the pokeboi we just caught
-            await self.client.send_message(channel, f"{prefix}info latest")
+            await channel.send(f"{prefix}info latest")
 
             # Process the pokecord reply
             await self.release(prefix)
@@ -105,7 +105,7 @@ class Pokecord:
         :param prefix: Prefix for the channel you caught that pokeman in
         """
         # Get the pokecord reply with our pokeboi info
-        reply = await self.client.wait_for_message(check=self.pokecord_check)
+        reply = await self.client.wait_for("message", check=self.pokecord_check)
 
         # Get the embed where all the info is
         embed = reply.embeds[0]
