@@ -35,6 +35,7 @@ class Messages:
                 # Wait for any configured delays before deleting the message, if configured
                 if self.config["silent"]:
                     await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
+                    await self.client.delete_message(message)
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))
