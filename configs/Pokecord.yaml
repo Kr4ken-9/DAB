@@ -2,8 +2,7 @@ firsttime: true
 enabled : true
 autocatch: true
 autorelease: true
-autocatchdelay: [1, 3]
-silent: [1, 3]
+autocatchdelay: [2, 4]
 minimumiv: 50
 prefixes: {'513741591802806292': 'p!', '513632347342766080': ';'}
 channels: ['513632347342766080']
