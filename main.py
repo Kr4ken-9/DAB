@@ -1,5 +1,5 @@
 import discord
-from src import config, commands
+from src import config, message_handler
 from src.tatsumaki import tatsumaki, tatconfig
 from src.sushii import sushii, sushiiconfig
 from src.messages import messages, messagesconfig
@@ -18,14 +18,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    """Check all incoming messages to see if they are commands, handle them if they are
-
-    :param message: Incoming message
-    """
-    #commands.handle_command(client, message, shared)
-
-    if poke.pokecord_check(message):
-        await poke.find_pokemon(message)
+    await MessageHandler.handle_message(message)
 
 
 tat = tatsumaki.Tatsumaki(client)
@@ -43,6 +36,8 @@ mconf.replace_example()
 tatconf.replace_example()
 sushconf.replace_example()
 pokeconf.replace_example()
+
+MessageHandler = message_handler.MessageHandler(client, shared.load_config(), poke)
 
 client.loop.create_task(mess.farm())
 client.loop.create_task(tat.rep())

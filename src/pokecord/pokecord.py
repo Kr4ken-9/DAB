@@ -99,11 +99,6 @@ class Pokecord:
             # Process the pokecord reply
             await self.release(prefix)
 
-        if self.config["silent"]:
-            await asyncio.sleep(utils.get_delay(self.config["silent"], self.rand))
-
-            await self.client.delete_message(message)
-
     async def release(self, prefix):
         """Release that garbage pokeman
 

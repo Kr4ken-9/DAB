@@ -22,12 +22,6 @@ class PokeConfig(config.Config):
         :return: A populated config
         """
 
-        # firsttime: true
-        # enabled: true
-        # autocatch: true
-        # prefix: 'p!'
-        # channels: [513741591802806292]
-
         yaml_conf['firsttime'] = False
 
         print("\nIt appears you haven't configured pokecord farming yet. You can do so now or manually later.")
@@ -63,19 +57,6 @@ class PokeConfig(config.Config):
         prefix = input("Enter the prefix for pokecord in that channel (default is p!): ")
         prefixes[channels[0]] = prefix
         yaml_conf["prefixes"] = prefixes
-
-        print("\nThe next configuration option is called silence.")
-        print("Enter a positive number to remove farming messages after that amount in seconds.")
-        print("You can manually configure DAB later to delete messages after a random amount of time (See Documentation)")
-        silent = input("Enter a number or 'False' to disable silence: ")
-
-        silent = utils.string_to_bool(silent)
-
-        # If user didn"t disable silence, convert it to integer
-        if not isinstance(silent, bool):
-            silent = int(silent)
-
-        yaml_conf["silent"] = silent
 
         return yaml_conf
 
