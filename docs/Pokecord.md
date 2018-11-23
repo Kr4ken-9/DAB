@@ -19,7 +19,6 @@ includes rep and fishies.
 | Integer          | Description                                                                  |
 |:----------------:|:----------------------------------------------------------------------------:|
 | autocatchdelay   | Delay, in seconds, before Pokemon are automatically caught                   |
-| silent           | Delay before a farming message is deleted                                    |
 | minimumiv        | Minimum IV required for pokemon not to be discarded by autorelease           |
 ### Lists
 
