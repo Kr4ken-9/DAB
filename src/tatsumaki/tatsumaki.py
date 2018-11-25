@@ -20,6 +20,9 @@ class Tatsumaki:
         if not self.config["repfarming"]:
             return
 
+        if self.client.shared["logging"]:
+            utils.log("Tatsumaki rep farming enabled")
+
         users = utils.user_generator(self.config["recipients"])
 
         while not self.client.is_closed():
@@ -37,6 +40,10 @@ class Tatsumaki:
                 await channel.send(random_message, delete_after=silent_delay)
             else:
                 await channel.send(random_message)
+
+            if self.client.shared["logging"]:
+                # TODO: specify who
+                utils.log("Gave tatsumaki rep to someone")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))

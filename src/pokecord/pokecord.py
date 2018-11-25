@@ -11,13 +11,18 @@ from src import utils
 from src.pokecord import pokeconfig
 
 
+def load_json(path):
+    with open(path, "r") as file:
+        return json.load(file)
+
+
 class Pokecord:
     def __init__(self, client):
         self.client = client
         p = pokeconfig.PokeConfig("Configs/Pokecord.yaml")
         self.config = p.load_config()
         self.rand = random.SystemRandom()
-        self.hashes = self.load_json("pokebois.json")
+        self.hashes = load_json("pokebois.json")
 
     def pokecord_check(self, message):
         # If the message is coming from a channel not configured, ignore
@@ -88,6 +93,9 @@ class Pokecord:
         # Catch the pokemon
         await channel.send(f"{prefix}catch {pokemon}")
 
+        if self.client.shared["logging"]:
+            utils.log(f"Caught {pokemon} in {channel.id}")
+
         # If configured, determine whether this pokeboi is worthy of keeping or not
         if self.config["autorelease"]:
             # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
@@ -98,6 +106,9 @@ class Pokecord:
 
             # Process the pokecord reply
             await self.release(prefix)
+
+            if self.client.shared["logging"]:
+                utils.log(f"Released {pokemon} in {channel.id}")
 
     async def release(self, prefix):
         """Release that garbage pokeman
@@ -127,8 +138,3 @@ class Pokecord:
 
             # Confirm you have standards
             await self.client.send_message(reply.channel, f"{prefix}confirm")
-
-    @staticmethod
-    def load_json(path):
-        with open(path, "r") as file:
-            return json.load(file)

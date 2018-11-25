@@ -20,6 +20,9 @@ class Sushii():
         if not self.config["repfarming"]:
             return
 
+        if self.client.shared["logging"]:
+            utils.log("Sushii rep farming enabled")
+
         users = utils.user_generator(self.config["reprecipients"])
 
         while not self.client.is_closed():
@@ -38,6 +41,10 @@ class Sushii():
             else:
                 await channel.send(random_message)
 
+            if self.client.shared["logging"]:
+                # TODO: Specify who
+                utils.log("Gave sushii rep to someone")
+
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["repdelay"], self.rand))
 
@@ -48,6 +55,9 @@ class Sushii():
         # If disabled in configuration, don"t proceed
         if not self.config["fishyfarming"]:
             return
+
+        if self.client.shared["logging"]:
+            utils.log("Sushii fishy farming enabled")
 
         users = utils.user_generator(self.config["fishyrecipients"])
 
@@ -66,6 +76,10 @@ class Sushii():
                 await channel.send(random_message, delete_after=silent_delay)
             else:
                 await channel.send(random_message)
+
+            if self.client.shared["logging"]:
+                # TODO: specify who
+                utils.log("Gave sushii fishies to someone")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["fishydelay"], self.rand))

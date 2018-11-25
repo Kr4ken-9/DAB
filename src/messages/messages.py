@@ -16,11 +16,14 @@ class Messages:
         """Send messages according to yaml config specifying frequency, channel, etc"""
         await self.client.wait_until_ready()
 
-        while not self.client.is_closed():
-            # Don"t proceed if no channels are configured
-            if len(self.config["channels"]) == 0 or not self.config["enabled"]:
-                return
+        # Don"t proceed if no channels are configured or configured to
+        if not self.config["enabled"] or len(self.config["channels"]) == 0:
+            return
 
+        if self.client.shared["logging"]:
+            utils.log("Message farming enabled")
+
+        while not self.client.is_closed():
             channels = self.config["channels"]
             # If configured, shuffle the channels to randomize the order we farm them
             if self.config["randomchannels"]:
@@ -42,6 +45,10 @@ class Messages:
                     await channel.send(random_message, delete_after=silent_delay)
                 else:
                     await channel.send(random_message)
+
+                if self.client.shared["logging"]:
+                    # TODO: specify who
+                    utils.log(f"Sent message to {schannel}")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))

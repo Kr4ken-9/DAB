@@ -1,4 +1,5 @@
 import random
+import datetime
 
 
 def __string_to_bool(string):
@@ -76,3 +77,8 @@ def get_pokeman_number(embed):
     pokeman_number = footer_text[index_of_colon + 2:index_of_slash_proportion]
 
     return pokeman_number
+
+
+def log(text):
+    date = datetime.datetime.now()
+    print(f"\n{date}: {text}")

@@ -13,7 +13,8 @@ class DAB(discord.Client):
         self.tatsumaki = tatsumaki.Tatsumaki(self)
         self.sushii = sushii.Sushii(self)
         self.pokecord = pokecord.Pokecord(self)
-        self.MessageHandler = message_handler.MessageHandler(self, shared.load_config(), self.pokecord)
+        self.shared = shared_yaml
+        self.MessageHandler = message_handler.MessageHandler(self)
 
         self.start_background_tasks()
 
@@ -24,7 +25,7 @@ class DAB(discord.Client):
         self.loop.create_task(self.sushii.fishy())
 
     async def on_ready(self):
-        print("Logged in as")
+        print("\nLogged in as")
         print(self.user.name)
         print(self.user.id)
         print("------")
@@ -34,6 +35,7 @@ class DAB(discord.Client):
 
 
 shared = config.Config("Configs/Shared.yaml")
+shared_yaml = shared.load_config()
 
 client = DAB()
-client.run(shared.load_config()["token"], bot=False)
+client.run(shared_yaml["token"], bot=False)
