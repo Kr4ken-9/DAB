@@ -23,13 +23,13 @@ class Sushii():
         if self.client.shared["logging"]:
             utils.log("Sushii rep farming enabled")
 
-        users = utils.user_generator(self.config["reprecipients"])
+        recipients = utils.list_generator(self.config["reprecipients"])
 
         while not self.client.is_closed():
             channel = self.client.get_channel(self.config["channel"])
 
-            # Get a random message from one of the configured ones
-            random_message = f"-rep <@{next(users)}>"
+            # Get a random recipient from one of the configured ones
+            random_recipient = next(recipients)
 
             # If configured, get the delay before deleting the message
             if self.config["silent"]:
@@ -37,13 +37,12 @@ class Sushii():
 
             # Send a random message in the configured channel
             if self.config["silent"]:
-                await channel.send(random_message, delete_after=silent_delay)
+                await channel.send(f"-rep <@{random_recipient}>", delete_after=silent_delay)
             else:
-                await channel.send(random_message)
+                await channel.send(f"-rep <@{random_recipient}>")
 
             if self.client.shared["logging"]:
-                # TODO: Specify who
-                utils.log("Gave sushii rep to someone")
+                utils.log(f"Gave sushii rep to {random_recipient}")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["repdelay"], self.rand))
@@ -59,13 +58,13 @@ class Sushii():
         if self.client.shared["logging"]:
             utils.log("Sushii fishy farming enabled")
 
-        users = utils.user_generator(self.config["fishyrecipients"])
+        recipients = utils.list_generator(self.config["fishyrecipients"])
 
         while not self.client.is_closed():
             channel = self.client.get_channel(self.config["channel"])
 
-            # Get a random message from one of the configured ones
-            random_message = f"-fishy <@{next(users)}>"
+            # Get a random recipient from one of the configured ones
+            random_recipient = next(recipients)
 
             # If configured, get the delay before deleting the message
             if self.config["silent"]:
@@ -73,13 +72,12 @@ class Sushii():
 
             # Send a random message in the configured channel
             if self.config["silent"]:
-                await channel.send(random_message, delete_after=silent_delay)
+                await channel.send(f"-fishy <@{random_recipient}>", delete_after=silent_delay)
             else:
-                await channel.send(random_message)
+                await channel.send(f"-fishy <@{random_recipient}>")
 
             if self.client.shared["logging"]:
-                # TODO: specify who
-                utils.log("Gave sushii fishies to someone")
+                utils.log(f"Gave sushii fishies to {random_recipient}")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["fishydelay"], self.rand))

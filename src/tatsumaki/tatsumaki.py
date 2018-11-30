@@ -23,13 +23,13 @@ class Tatsumaki:
         if self.client.shared["logging"]:
             utils.log("Tatsumaki rep farming enabled")
 
-        users = utils.user_generator(self.config["recipients"])
+        recipients = utils.list_generator(self.config["recipients"])
 
         while not self.client.is_closed():
             channel = self.client.get_channel(self.config["channel"])
 
-            # Get a random message from one of the configured ones
-            random_message = f"t!rep <@{next(users)}>"
+            # Get a random recipient from one of the configured ones
+            random_recipient = next(recipients)
 
             # If configured, get the delay before deleting the message
             if self.config["silent"]:
@@ -37,13 +37,12 @@ class Tatsumaki:
 
             # Send a random message in the configured channel
             if self.config["silent"]:
-                await channel.send(random_message, delete_after=silent_delay)
+                await channel.send(f"t!rep <@{random_recipient}>", delete_after=silent_delay)
             else:
-                await channel.send(random_message)
+                await channel.send(f"t!rep <@{random_recipient}>")
 
             if self.client.shared["logging"]:
-                # TODO: specify who
-                utils.log("Gave tatsumaki rep to someone")
+                utils.log(f"Gave tatsumaki rep to {random_recipient}")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))

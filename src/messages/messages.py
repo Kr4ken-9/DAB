@@ -23,6 +23,8 @@ class Messages:
         if self.client.shared["logging"]:
             utils.log("Message farming enabled")
 
+            messages = utils.list_generator(self.config["messages"])
+
         while not self.client.is_closed():
             channels = self.config["channels"]
             # If configured, shuffle the channels to randomize the order we farm them
@@ -34,7 +36,7 @@ class Messages:
                 channel = self.client.get_channel(schannel)
 
                 # Get a random message from one of the configured ones
-                random_message = self.rand.choice(self.config["messages"])
+                random_message = next(messages)
 
                 # If configured, get the delay before deleting the message
                 if self.config["silent"]:
@@ -47,8 +49,7 @@ class Messages:
                     await channel.send(random_message)
 
                 if self.client.shared["logging"]:
-                    # TODO: specify who
-                    utils.log(f"Sent message to {schannel}")
+                    utils.log(f"Sent \"{random_message}\" to {schannel}")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))

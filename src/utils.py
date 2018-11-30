@@ -20,13 +20,14 @@ def string_to_bool(string):
         return string
 
 
-def user_generator(users):
-        random.shuffle(users)
+def list_generator(list):
+        random.shuffle(list)
         c = 0
         while True:
-            yield users[c]
+            yield list[c]
             c += 1
-            if c >= len(users):
+            if c >= len(list):
+                random.shuffle(list)
                 c = 0
 
 
