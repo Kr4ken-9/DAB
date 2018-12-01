@@ -46,7 +46,7 @@ def get_delay(config, rand):
 
 def get_IV(embed):
     # Get the description of the embed where all the info is
-    description = embed["description"]
+    description = embed.description
 
     # Get the index of the last place "%" occurs
     # The last time % appears is after it gives us the Total IV
@@ -61,10 +61,10 @@ def get_IV(embed):
 
 def get_pokeman_number(embed):
     # Get the footer of the embed where the number of our pokeboi is
-    footer = embed["footer"]
+    footer = embed.footer
 
     # Get text of footer (That's the only thing in the footer lmao wtf)
-    footer_text = footer["text"]
+    footer_text = footer.text
 
     # Get the index of "/" when it says "Pokeman: 69/420"
     # Only occurs once so we don't need fancy rfind

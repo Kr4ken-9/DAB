@@ -30,11 +30,16 @@ class Pokecord:
             return False
 
         # If the message isn't send by Pokecord bot, ignore
-        if not message.author.id == "365975655608745985":
+        if not message.author.id == 365975655608745985:
             return False
 
-        # If the message doesn't have an embed, ignore
-        if len(message.embeds) != 1:
+        return True
+
+    def check_catch(self, message):
+        if len(message.mentions) != 1:
+            return False
+
+        if message.mentions[0].id != self.client.user.id:
             return False
 
         return True
@@ -51,15 +56,19 @@ class Pokecord:
         if not self.config["enabled"] or not self.config["autocatch"]:
             return
 
+        # If the message doesn't have an embed, ignore
+        if len(message.embeds) != 1:
+            return False
+
         embed = message.embeds[0]
 
         # If the message isn't a catchable pokemon, ignore
-        if not embed["title"] == "‌‌A wild pokémon has appeared!":
+        if not embed.title == "‌‌A wild pokémon has appeared!":
             return
 
         # Download the image (picture of pokemon)
-        embedimage = embed["image"]
-        url = embedimage["url"]
+        embedimage = embed.image
+        url = embedimage.url
         image = requests.get(url)
 
         # Pass image and channel to catch method
@@ -93,6 +102,17 @@ class Pokecord:
         # Catch the pokemon
         await channel.send(f"{prefix}catch {pokemon}")
 
+        # Next message should be a success message from Pokecord
+        catch_or_fail = await self.client.wait_for("message", check=self.pokecord_check)
+
+        caught = self.check_catch(catch_or_fail)
+
+        if not caught:
+            if self.client.shared["logging"]:
+                utils.log(f"Failed to catch {pokemon} in {channel.id}")
+
+            return
+
         if self.client.shared["logging"]:
             utils.log(f"Caught {pokemon} in {channel.id}")
 
@@ -105,10 +125,9 @@ class Pokecord:
             await channel.send(f"{prefix}info latest")
 
             # Process the pokecord reply
-            await self.release(prefix)
-
-            if self.client.shared["logging"]:
-                utils.log(f"Released {pokemon} in {channel.id}")
+            if await self.release(prefix):
+                if self.client.shared["logging"]:
+                    utils.log(f"Released {pokemon} in {channel.id}")
 
     async def release(self, prefix):
         """Release that garbage pokeman
@@ -118,23 +137,34 @@ class Pokecord:
         # Get the pokecord reply with our pokeboi info
         reply = await self.client.wait_for("message", check=self.pokecord_check)
 
+        # If the message doesn't have an embed, ignore
+        if len(reply.embeds) != 1:
+            if self.client.shared["logging"]:
+                utils.log("Failed to autorelease (no embeds)")
+
+            return False
+
         # Get the embed where all the info is
         embed = reply.embeds[0]
 
         # Get the Total IV of the new pokeboi
         IV = utils.get_IV(embed)
 
-        if float(IV) < self.config["minimumiv"]:
-            pokeman_number = utils.get_pokeman_number(embed)
+        if float(IV) > self.config["minimumiv"]:
+            return False
 
-            # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
-            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+        pokeman_number = utils.get_pokeman_number(embed)
 
-            # Release that garbage pokeman
-            await self.client.send_message(reply.channel, f"{prefix}release {pokeman_number}")
+        # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
+        await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
 
-            # MORE POKECORD COOLDOWNS
-            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+        # Release that garbage pokeman
+        await reply.channel.send(f"{prefix}release {pokeman_number}")
 
-            # Confirm you have standards
-            await self.client.send_message(reply.channel, f"{prefix}confirm")
+        # MORE POKECORD COOLDOWNS
+        await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+
+        # Confirm you have standards
+        await reply.channel.send(f"{prefix}confirm")
+
+        return True
