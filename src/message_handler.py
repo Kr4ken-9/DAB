@@ -22,7 +22,7 @@ class MessageHandler:
 
         # Check if message is a command
         owners = self.shared_config["owners"]
-        if message.author.id not in owners:
+        if message.author.id not in owners and message.author.id != self.client.user.id:
             return
 
         if message.content.startswith("|"):
