@@ -1,7 +1,6 @@
-# Sushii.yaml
+# Pokecord.yaml
 
-Configurations options for farming Sushiibot related things. Currently
-includes rep and fishies.
+Configurations options for farming Pokecord related things. Currently supports autocatching and releasing.
 
 ## Config Options:
 
