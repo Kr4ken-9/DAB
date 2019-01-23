@@ -1,5 +1,6 @@
 import discord
-from src import config, message_handler
+from discord.ext import commands
+from src import config, message_handler, COMMANDS
 from src.tatsumaki import tatsumaki
 from src.sushii import sushii
 from src.messages import messages
@@ -7,9 +8,9 @@ from src.pokecord import pokecord
 from src.sidney import sidney
 
 
-class DAB(discord.Client):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class DAB(commands.bot.Bot):
+    def __init__(self, command_prefix):
+        super().__init__(command_prefix=command_prefix, self_bot=True)
         self.messages = messages.Messages(self)
         self.tatsumaki = tatsumaki.Tatsumaki(self)
         self.sushii = sushii.Sushii(self)
@@ -37,8 +38,10 @@ class DAB(discord.Client):
         await self.MessageHandler.handle_message(message)
 
 
-shared = config.Config("Configs/Shared.yaml")
+shared = config.Config("RealConfigs/Shared.yaml")
 shared_yaml = shared.load_config()
 
-client = DAB()
+client = DAB(command_prefix="!")
+
+client.load_extension("src.COMMANDS")
 client.run(shared_yaml["token"], bot=False)

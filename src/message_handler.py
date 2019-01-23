@@ -12,7 +12,6 @@ class MessageHandler:
         """Check if each incoming message is a command or something to be operated on
 
         :param message:
-        :return:
         """
 
         # Check if message is a new pokemon and if so catch it
