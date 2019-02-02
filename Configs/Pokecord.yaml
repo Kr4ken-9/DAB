@@ -4,5 +4,5 @@ autocatch: true
 autorelease: true
 autocatchdelay: [2, 4]
 minimumiv: 50
-prefixes: {'513741591802806292': 'p!', '513632347342766080': ';'}
-channels: ['513632347342766080']
+prefixes: {513741591802806292: 'p!', 513632347342766080: ';'}
+channels: [513632347342766080]

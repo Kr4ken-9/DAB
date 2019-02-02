@@ -3,10 +3,10 @@ from src import utils
 
 
 class MessageHandler:
-    def __init__(self, client):
-        self.client = client
-        self.shared_config = client.shared
-        self.pokecord = client.pokecord
+    def __init__(self, bot):
+        self.client = bot
+        self.shared_config = bot.shared
+        self.pokecord = bot.pokecord
 
     async def handle_message(self, message):
         """Check if each incoming message is a command or something to be operated on
@@ -30,3 +30,7 @@ class MessageHandler:
 
             if self.shared_config["logging"]:
                 utils.log(f"Repeated {to_repeat}")
+
+            return
+
+        await self.client.process_commands(message) # https://discordpy.readthedocs.io/en/latest/faq.html#id18

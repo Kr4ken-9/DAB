@@ -9,13 +9,6 @@ class Commands:
         self.shared_config = client.shared
         self.pokecord = client.pokecord
 
-        #self.client.add_command(self.mrelease)
-        #self.client.add_command(self.yeet)
-
-    @commands.command(name="yeet", pass_context=True)
-    async def yeet(self, context):
-        await context.send("shut up whore")
-
     @commands.command(pass_context=True)
     async def mrelease(self, context):
         prefixes = self.pokecord.config["prefixes"]

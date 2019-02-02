@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from src import config, message_handler, COMMANDS
+from src import config, message_handler
 from src.tatsumaki import tatsumaki
 from src.sushii import sushii
 from src.messages import messages
@@ -41,7 +41,7 @@ class DAB(commands.bot.Bot):
 shared = config.Config("RealConfigs/Shared.yaml")
 shared_yaml = shared.load_config()
 
-client = DAB(command_prefix="!")
+client = DAB(command_prefix=shared_yaml["prefix"])
 
 client.load_extension("src.COMMANDS")
 client.run(shared_yaml["token"], bot=False)
