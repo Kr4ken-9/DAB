@@ -1,4 +1,9 @@
 # Discord Automation Bot
+
+## WARNING
+
+This selfbot can get you banned from Discord and WILL get you banned from Tatsumaki. Use at your own risk. I take no responsibility for you being banned. Selfbots are against both Discord's terms of service and Tatsumaki's rules.
+
 ## D. A. B. for short
 
 ### What is DAB?
