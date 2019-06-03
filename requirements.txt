@@ -1,4 +1,4 @@
-git+https://github.com/Rapptz/discord.py@860d6a9ace8248dfeec18b8b159e7b757d9f56bb
+git+https://github.com/Rapptz/discord.py@90ae3f396cb8315d346b88a829092dd27108feb4
 pyyaml
 requests
 Pillow

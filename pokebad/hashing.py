@@ -31,7 +31,7 @@ def hash_them_all(images, output):
         db[h] = filename
 
     with open(output, 'w') as file:
-        file.write(json.dumps(db))
+        file.write(json.dumps(db, indent=4))
 
 
 hash_them_all(args.images, args.output)
