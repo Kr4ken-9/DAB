@@ -27,4 +27,4 @@ class Config:
     def load_config(self):
         """Loads path as a yaml config"""
         with open(self.path, "r") as file:
-            return yaml.load(file)
+            return yaml.load(file, Loader=yaml.SafeLoader)

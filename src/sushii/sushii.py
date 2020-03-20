@@ -35,11 +35,14 @@ class Sushii():
             if self.config["silent"]:
                 silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
-            # Send a random message in the configured channel
-            if self.config["silent"]:
-                await channel.send(f"-rep <@{random_recipient}>", delete_after=silent_delay)
-            else:
-                await channel.send(f"-rep <@{random_recipient}>")
+            # Give the recipient rep
+            async with channel.typing():
+                await asyncio.sleep(self.rand.randint(1, 3))  # Also make it seem human
+
+                if self.config["silent"]:
+                    await channel.send(f"-rep <@{random_recipient}>", delete_after=silent_delay)
+                else:
+                    await channel.send(f"-rep <@{random_recipient}>")
 
             if self.client.shared["logging"]:
                 utils.log(f"Gave sushii rep to {random_recipient}")

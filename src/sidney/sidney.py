@@ -26,8 +26,12 @@ class Sidney:
         while not self.client.is_closed():
             channel = self.client.get_channel(self.config["channel"])
 
-            # Farm work
-            await channel.send("sid work")
+            # Type for a minute to look like a human
+            async with channel.typing():
+                await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))
+
+                # Farm work
+                await channel.send("sid work")
 
             if self.client.shared["logging"]:
                 utils.log(f"Farmed Sidneybot work in {channel.id}")

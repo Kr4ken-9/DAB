@@ -26,11 +26,16 @@ class MessageHandler:
 
         if message.content.startswith("|"):
             to_repeat = message.content[1:]
-            await message.channel.send(to_repeat)
+
+            # Type for a minute to look like a human
+            async with message.channel.typing():
+                await asyncio.sleep(self.rand.randint(1, 3))
+
+                await message.channel.send(to_repeat)
 
             if self.shared_config["logging"]:
                 utils.log(f"Repeated {to_repeat}")
 
             return
 
-        await self.client.process_commands(message) # https://discordpy.readthedocs.io/en/latest/faq.html#id18
+        await self.client.process_commands(message)  # https://discordpy.readthedocs.io/en/latest/faq.html#id18

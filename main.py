@@ -38,7 +38,7 @@ class DAB(commands.bot.Bot):
         await self.MessageHandler.handle_message(message)
 
 
-shared = config.Config("RealConfigs/Shared.yaml")
+shared = config.Config("Configs/Shared.yaml")
 shared_yaml = shared.load_config()
 
 client = DAB(command_prefix=shared_yaml["prefix"])

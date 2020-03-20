@@ -35,21 +35,25 @@ class Messages:
                 # Create a channel object of the configured channel id
                 channel = self.client.get_channel(schannel)
 
-                # Get a random message from one of the configured ones
-                random_message = next(messages)
+                # Humans don't send messages instantly
+                async with channel.typing():
+                    await asyncio.sleep(self.rand.randint(1, 3))
 
-                # If configured, get the delay before deleting the message
-                if self.config["silent"]:
-                    silent_delay = utils.get_delay(self.config["silent"], self.rand)
+                    # Get a random message from one of the configured ones
+                    random_message = next(messages)
 
-                # Send a random message in the configured channel
-                if self.config["silent"]:
-                    await channel.send(random_message, delete_after=silent_delay)
-                else:
-                    await channel.send(random_message)
+                    # If configured, get the delay before deleting the message
+                    if self.config["silent"]:
+                        silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
-                if self.client.shared["logging"]:
-                    utils.log(f"Sent \"{random_message}\" to {schannel}")
+                    # Send a random message in the configured channel
+                    if self.config["silent"]:
+                        await channel.send(random_message, delete_after=silent_delay)
+                    else:
+                        await channel.send(random_message)
+
+                    if self.client.shared["logging"]:
+                        utils.log(f"Sent \"{random_message}\" to {schannel}")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))
