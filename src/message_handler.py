@@ -28,10 +28,11 @@ class MessageHandler:
         if message.content.startswith("|"):
             to_repeat = message.content[1:]
 
-            # Generate message to send
-            outbound = outbound_message.Outbound_Message(to_repeat, message.channel, self.pokecord.rand)
+            # Generate human delay
+            delay = self.pokecord.rand.randint(1, 3)
 
-            # Send message
+            # Generate and send message (repeated)
+            outbound = outbound_message.Outbound_Message(to_repeat, message.channel, delay)
             await outbound.send()
 
             if self.shared_config["logging"]:

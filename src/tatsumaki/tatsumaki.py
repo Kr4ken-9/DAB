@@ -32,11 +32,14 @@ class Tatsumaki:
             # Get a random recipient from one of the configured ones
             random_recipient = next(recipients)
 
+            # Human typing delay
+            delay = self.rand.randint(1, 3)
+
             # If configured, get the delay before deleting the message
             silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
             # Give the recipient rep in the configured channel
-            outbound = outbound_message.Outbound_Message(f"t!rep <@{random_recipient}>", channel, self.rand, silent=silent_delay)
+            outbound = outbound_message.Outbound_Message(f"t!rep <@{random_recipient}>", channel, delay, silent_delay)
             await outbound.send()
 
             if self.client.shared["logging"]:

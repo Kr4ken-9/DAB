@@ -9,7 +9,6 @@ import json
 
 from src import utils
 from src.pokecord import pokeconfig
-
 from src.messages import outbound_message
 
 
@@ -102,7 +101,7 @@ class Pokecord:
         delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
 
         # Send the message to catch the pokemon
-        outbound = outbound_message.Outbound_Message(f"{prefix}catch {pokemon}", channel, self.rand, delay)
+        outbound = outbound_message.Outbound_Message(f"{prefix}catch {pokemon}", channel,  delay)
         await outbound.send()
 
         # Next message should be a success message from Pokecord
@@ -125,7 +124,7 @@ class Pokecord:
             delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
 
             # Get info on the pokeboi we just caught
-            outbound = outbound_message.Outbound_Message(f"{prefix}info latest", channel, self.rand, delay)
+            outbound = outbound_message.Outbound_Message(f"{prefix}info latest", channel, delay)
             await outbound.send()
 
             # Process the pokecord reply
@@ -163,14 +162,14 @@ class Pokecord:
         delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
 
         # Release that garbage pokeman
-        outbound = outbound_message.Outbound_Message(f"{prefix}release {pokeman_number}", reply.channel, self.rand, delay)
+        outbound = outbound_message.Outbound_Message(f"{prefix}release {pokeman_number}", reply.channel, delay)
         await outbound.send()
         
         # More cooldowns
         delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
 
         # Confirm you have standards
-        outbound = outbound_message.Outbound_Message(f"{prefix}confirm", reply.channel, self.rand, delay)
+        outbound = outbound_message.Outbound_Message(f"{prefix}confirm", reply.channel, delay)
         await outbound.send()
 
         return True

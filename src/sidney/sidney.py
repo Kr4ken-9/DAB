@@ -28,14 +28,17 @@ class Sidney:
             channel = self.client.get_channel(self.config["channel"])
 
             # Human typing delay
-            delay = utils.get_delay(self.config["delay"], self.rand)
+            delay = self.rand.randint(1, 3)
 
             # Farm work
-            outbound = outbound_message.Outbound_Message("sid work", channel, self.rand, delay)
+            outbound = outbound_message.Outbound_Message("sid work", channel, delay)
             await outbound.send()
 
             if self.client.shared["logging"]:
                 utils.log(f"Farmed Sidneybot work in {channel.id}")
+
+            # Work farming delay
+            delay = utils.get_delay(self.config["delay"], self.rand)
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))

@@ -38,11 +38,14 @@ class Messages:
                 # Get a random message from one of the configured ones
                 random_message = next(messages)
 
+                # Generate a human delay before sending the message
+                delay = self.rand.randint(1, 3)
+
                 # If configured, get the delay before deleting the message
                 silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
                 # Send a random message in the configured channel
-                outbound = outbound_message.Outbound_Message(random_message, channel, self.rand, silent_delay)
+                outbound = outbound_message.Outbound_Message(random_message, channel, delay, silent_delay)
                 await outbound.send()
 
                 if self.client.shared["logging"]:
