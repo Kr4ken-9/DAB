@@ -70,8 +70,8 @@ def get_pokeman_number(embed):
     # Only occurs once so we don't need fancy rfind
     index_of_slash_proportion = footer_text.find("/")
 
-    # Get the index of ":" when it says "Pokeman 69/420"
-    # Only occurs once so we don't need fancy rfind
+    # Get the index of ":" when it says "Pokeman: 69/420"
+    # Again, only occurs once
     index_of_colon = footer_text.find(":")
 
     # Trim the footer to just the number of our new pokeboi

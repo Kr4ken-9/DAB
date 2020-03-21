@@ -1,8 +1,9 @@
-import discord
 import asyncio
 import random
+
 from src import utils
 from src.sushii import sushiiconfig
+from src.message_handler import outbound_message
 
 
 class Sushii():
@@ -32,17 +33,11 @@ class Sushii():
             random_recipient = next(recipients)
 
             # If configured, get the delay before deleting the message
-            if self.config["silent"]:
-                silent_delay = utils.get_delay(self.config["silent"], self.rand)
+            silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
-            # Give the recipient rep
-            async with channel.typing():
-                await asyncio.sleep(self.rand.randint(1, 3))  # Also make it seem human
-
-                if self.config["silent"]:
-                    await channel.send(f"-rep <@{random_recipient}>", delete_after=silent_delay)
-                else:
-                    await channel.send(f"-rep <@{random_recipient}>")
+            # Give the random recipient rep
+            outbound = outbound_message.Outbound_Message(f"-rep <@{random_recipient}>", channel, self.rand, silent=silent_delay)
+            await outbound.send()
 
             if self.client.shared["logging"]:
                 utils.log(f"Gave sushii rep to {random_recipient}")
@@ -70,14 +65,11 @@ class Sushii():
             random_recipient = next(recipients)
 
             # If configured, get the delay before deleting the message
-            if self.config["silent"]:
-                silent_delay = utils.get_delay(self.config["silent"], self.rand)
+            silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
-            # Send a random message in the configured channel
-            if self.config["silent"]:
-                await channel.send(f"-fishy <@{random_recipient}>", delete_after=silent_delay)
-            else:
-                await channel.send(f"-fishy <@{random_recipient}>")
+            # Give the random recipient fishies
+            outbound = outbound_message.Outbound_Message(f"-fishy <@{random_recipient}>", channel, self.rand, silent=silent_delay)
+            await outbound.send()
 
             if self.client.shared["logging"]:
                 utils.log(f"Gave sushii fishies to {random_recipient}")

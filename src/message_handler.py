@@ -1,4 +1,5 @@
 import asyncio
+from src.messages import outbound_message
 from src import utils
 
 
@@ -27,11 +28,11 @@ class MessageHandler:
         if message.content.startswith("|"):
             to_repeat = message.content[1:]
 
-            # Type for a minute to look like a human
-            async with message.channel.typing():
-                await asyncio.sleep(self.rand.randint(1, 3))
+            # Generate message to send
+            outbound = outbound_message.Outbound_Message(to_repeat, message.channel, self.pokecord.rand)
 
-                await message.channel.send(to_repeat)
+            # Send message
+            await outbound.send()
 
             if self.shared_config["logging"]:
                 utils.log(f"Repeated {to_repeat}")

@@ -10,6 +10,8 @@ import json
 from src import utils
 from src.pokecord import pokeconfig
 
+from src.messages import outbound_message
+
 
 def load_json(path):
     with open(path, "r") as file:
@@ -96,13 +98,12 @@ class Pokecord:
         prefixes = self.config["prefixes"]
         prefix = prefixes[channel.id]
 
-        # Humans don't send messages instantly
-        async with channel.typing():
-            # Wait for any configured delays before catching the pokemon
-            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+        # Calculate any configured delays before catching the pokemon
+        delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
 
-            # Catch the pokemon
-            await channel.send(f"{prefix}catch {pokemon}")
+        # Send the message to catch the pokemon
+        outbound = outbound_message.Outbound_Message(f"{prefix}catch {pokemon}", channel, self.rand, delay)
+        await outbound.send()
 
         # Next message should be a success message from Pokecord
         catch_or_fail = await self.client.wait_for("message", check=self.pokecord_check)
@@ -120,13 +121,12 @@ class Pokecord:
 
         # If configured, determine whether this pokeboi is worthy of keeping or not
         if self.config["autorelease"]:
-            # Humans don't send messages instantly
-            async with channel.typing():
-                # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
-                await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+            # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
+            delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
 
-                # Get info on the pokeboi we just caught
-                await channel.send(f"{prefix}info latest")
+            # Get info on the pokeboi we just caught
+            outbound = outbound_message.Outbound_Message(f"{prefix}info latest", channel, self.rand, delay)
+            await outbound.send()
 
             # Process the pokecord reply
             if await self.release(prefix):
@@ -159,20 +159,18 @@ class Pokecord:
 
         pokeman_number = utils.get_pokeman_number(embed)
 
-        # Humans still don't type instantly
-        async with reply.channel.typing():
-            # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
-            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
+        # Wait for a minute so that we don't get cock blocked by pokecord cooldowns
+        delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
 
-            # Release that garbage pokeman
-            await reply.channel.send(f"{prefix}release {pokeman_number}")
+        # Release that garbage pokeman
+        outbound = outbound_message.Outbound_Message(f"{prefix}release {pokeman_number}", reply.channel, self.rand, delay)
+        await outbound.send()
+        
+        # More cooldowns
+        delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
 
-        # I'm starting to wonder, is humanity worth it?
-        async with reply.channel.typing():
-            # MORE POKECORD COOLDOWNS
-            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
-
-            # Confirm you have standards
-            await reply.channel.send(f"{prefix}confirm")
+        # Confirm you have standards
+        outbound = outbound_message.Outbound_Message(f"{prefix}confirm", reply.channel, self.rand, delay)
+        await outbound.send()
 
         return True

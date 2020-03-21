@@ -1,8 +1,9 @@
-import discord
 import asyncio
 import random
+
 from src import utils
 from src.tatsumaki import tatconfig
+from src.messages import outbound_message
 
 
 class Tatsumaki:
@@ -32,17 +33,11 @@ class Tatsumaki:
             random_recipient = next(recipients)
 
             # If configured, get the delay before deleting the message
-            if self.config["silent"]:
-                silent_delay = utils.get_delay(self.config["silent"], self.rand)
+            silent_delay = utils.get_delay(self.config["silent"], self.rand)
 
             # Give the recipient rep in the configured channel
-            async with channel.typing():
-                await asyncio.sleep(self.rand.randint(1, 3)) # Make it seem human
-
-                if self.config["silent"]:
-                    await channel.send(f"t!rep <@{random_recipient}>", delete_after=silent_delay)
-                else:
-                    await channel.send(f"t!rep <@{random_recipient}>")
+            outbound = outbound_message.Outbound_Message(f"t!rep <@{random_recipient}>", channel, self.rand, silent=silent_delay)
+            await outbound.send()
 
             if self.client.shared["logging"]:
                 utils.log(f"Gave tatsumaki rep to {random_recipient}")

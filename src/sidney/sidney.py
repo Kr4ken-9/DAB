@@ -1,8 +1,9 @@
-import discord
 import asyncio
 import random
+
 from src import utils
 from src.sidney import sidneyconfig
+from src.messages import outbound_message
 
 
 class Sidney:
@@ -26,12 +27,12 @@ class Sidney:
         while not self.client.is_closed():
             channel = self.client.get_channel(self.config["channel"])
 
-            # Type for a minute to look like a human
-            async with channel.typing():
-                await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))
+            # Human typing delay
+            delay = utils.get_delay(self.config["delay"], self.rand)
 
-                # Farm work
-                await channel.send("sid work")
+            # Farm work
+            outbound = outbound_message.Outbound_Message("sid work", channel, self.rand, delay)
+            await outbound.send()
 
             if self.client.shared["logging"]:
                 utils.log(f"Farmed Sidneybot work in {channel.id}")
