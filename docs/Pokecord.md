@@ -19,6 +19,7 @@ Configurations options for farming Pokecord related things. Currently supports a
 |:----------------:|:----------------------------------------------------------------------------:|
 | autocatchdelay   | Delay, in seconds, before Pokemon are automatically caught                   |
 | minimumiv        | Minimum IV required for pokemon not to be discarded by autorelease           |
+
 ### Lists
 
 | List     | Description                                          |
