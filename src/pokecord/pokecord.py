@@ -7,9 +7,8 @@ from PIL import Image
 import imagehash
 import json
 
-from src import utils
+from src import utils, outbound_message
 from src.pokecord import pokeconfig
-from src.messages import outbound_message
 
 
 def load_json(path):
@@ -24,6 +23,9 @@ class Pokecord:
         self.config = p.load_config()
         self.rand = random.SystemRandom()
         self.hashes = load_json("pokebois.json")
+        self.pokebois = {}
+
+    # region checks
 
     def pokecord_check(self, message):
         # If the message is coming from a channel not configured, ignore
@@ -45,6 +47,21 @@ class Pokecord:
 
         return True
 
+    def check_other_catch(self, message):
+        # Check if the pokecord message is congratulating someone for catching a pokemon
+        if message.content[:15] != "Congratulations":
+            return
+
+        # Check if someone is mentioned
+        if len(message.mentions) != 1:
+            return
+
+        # If the person is not us, update our pokebois dictionary so we do not catch a pokemon late
+        if message.mentions[0].id != self.client.user.id:
+            self.pokebois[message.channel.id] = "Caught"
+
+    # endregion
+
     async def find_pokemon(self, message):
         """Filter messages to find catchable pokemon, and catch them
 
@@ -53,18 +70,15 @@ class Pokecord:
         """
         await self.client.wait_until_ready()
 
-        # If disabled, return
-        if not self.config["enabled"] or not self.config["autocatch"]:
-            return
-
         # If the message doesn't have an embed, ignore
         if len(message.embeds) != 1:
+            self.check_other_catch(message)
             return False
 
         embed = message.embeds[0]
 
         # If the message isn't a catchable pokemon, ignore
-        if not embed.title == "‌‌A wild pokémon has аppeаred!": #Thank you hidden characters
+        if not embed.title == "‌‌A wild pokémon has аppeаred!": # Thank you hidden characters
             return
 
         # Download the image (picture of pokemon)
@@ -93,16 +107,27 @@ class Pokecord:
         # So we pass the hash and get the name of the Pokemon
         pokemon = self.hashes[hash]
 
+        # Record latest pokemon that appeared in this channel
+        self.pokebois[channel.id] = pokemon
+
         # Get the prefix for this channel
         prefixes = self.config["prefixes"]
         prefix = prefixes[channel.id]
 
-        # Calculate any configured delays before catching the pokemon
-        delay = utils.get_delay(self.config["autocatchdelay"], self.rand)
+        async with channel.typing():
+            # Wait for any configured delays before catching the pokemon
+            await asyncio.sleep(utils.get_delay(self.config["autocatchdelay"], self.rand))
 
-        # Send the message to catch the pokemon
-        outbound = outbound_message.Outbound_Message(f"{prefix}catch {pokemon}", channel,  delay)
-        await outbound.send()
+            # Check if the latest pokemon is still the one we are trying to catch
+            # If not, this means someone has already caught it or a new one appeared
+            # In which case we need to abort
+            if self.pokebois[channel.id] != pokemon:
+                if self.client.shared["logging"]:
+                    utils.log(f"{pokemon} was caught/replaced in {channel.id}")
+
+                return
+
+            await channel.send(f"{prefix}catch {pokemon}")
 
         # Next message should be a success message from Pokecord
         catch_or_fail = await self.client.wait_for("message", check=self.pokecord_check)

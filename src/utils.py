@@ -2,6 +2,7 @@ import random
 import datetime
 
 
+# region stb
 def __string_to_bool(string):
     if string == "TRUE":
         return True
@@ -20,30 +21,10 @@ def string_to_bool(string):
         return string
 
 
-def list_generator(list):
-        random.shuffle(list)
-        c = 0
-        while True:
-            yield list[c]
-            c += 1
-            if c >= len(list):
-                random.shuffle(list)
-                c = 0
+# endregion
 
 
-def get_delay(config, rand):
-    # If configured, treat silent config option as parameters
-    if type(config) is list:
-        minmax = config
-
-        # First parameter is the minimum, second is the max
-        # Choose a random number between the min and max, and return as the delay
-        return rand.randint(minmax[0], minmax[1])
-    else:
-        # If a static delay is configured, return it
-        return config
-
-
+# region pokecord
 def get_IV(embed):
     # Get the description of the embed where all the info is
     description = embed.description
@@ -80,6 +61,33 @@ def get_pokeman_number(embed):
     return pokeman_number
 
 
+# endregion
+
+
 def log(text):
     date = datetime.datetime.now()
     print(f"\n{date}: {text}")
+
+
+def list_generator(list):
+    random.shuffle(list)
+    c = 0
+    while True:
+        yield list[c]
+        c += 1
+        if c >= len(list):
+            random.shuffle(list)
+            c = 0
+
+
+def get_delay(config, rand):
+    # If configured, treat silent config option as parameters
+    if type(config) is list:
+        minmax = config
+
+        # First parameter is the minimum, second is the max
+        # Choose a random number between the min and max, and return as the delay
+        return rand.randint(minmax[0], minmax[1])
+    else:
+        # If a static delay is configured, return it
+        return config

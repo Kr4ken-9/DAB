@@ -1,8 +1,7 @@
-import discord
 import asyncio
 import random
-from src import utils
-from src.messages import messagesconfig, outbound_message
+from src import utils, outbound_message
+from src.messages import messagesconfig
 
 
 class Messages:

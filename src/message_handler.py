@@ -1,6 +1,4 @@
-import asyncio
-from src.messages import outbound_message
-from src import utils
+from src import utils, outbound_message
 
 
 class MessageHandler:
@@ -16,9 +14,11 @@ class MessageHandler:
         """
 
         # Check if message is a new pokemon and if so catch it
-        if self.pokecord.pokecord_check(message):
-            await self.pokecord.find_pokemon(message)
-            return
+        # If enabled of course
+        if self.pokecord.config["enabled"] and self.pokecord.config["autocatch"]:
+            if self.pokecord.pokecord_check(message):
+                await self.pokecord.find_pokemon(message)
+                return
 
         # Check if message is a command
         owners = self.shared_config["owners"]

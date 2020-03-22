@@ -1,9 +1,8 @@
 import asyncio
 import random
 
-from src import utils
+from src import utils, outbound_message
 from src.tatsumaki import tatconfig
-from src.messages import outbound_message
 
 
 class Tatsumaki:

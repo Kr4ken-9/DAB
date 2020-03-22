@@ -1,9 +1,8 @@
 import asyncio
 import random
 
-from src import utils
+from src import utils, outbound_message
 from src.sushii import sushiiconfig
-from src.message_handler import outbound_message
 
 
 class Sushii():
