@@ -3,7 +3,7 @@ repfarming: true
 fishyfarming: true
 channel: 435949310610374661
 silent: 5
-fishyrecipients: ['120420368770007040']
-reprecipients: ['120420368770007040']
+fishyrecipients: [008487706220002265]
+reprecipients: [008487706220002265]
 fishydelay: 720
 repdelay: 720

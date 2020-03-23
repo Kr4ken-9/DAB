@@ -1,6 +1,6 @@
 # Additional Notes
 
-This doc covers common  configuration options that may need more in-depth
+This doc covers common configuration options that may need more in-depth
 explanations.
 
 ## Silent
@@ -50,13 +50,13 @@ channels in the same order, while a person might not.
 
 Acceptable configuration options:
 ```yaml
-prefixes: {'513741591802806292': 'p!'}
-prefixes: {'513741591802806292': 'p!', '513632347342766080': ';'}
+prefixes: {499400204537586943: 'p!'}
+prefixes: {499400204537586943: 'p!', 162005977647460481: ';'}
 ```
 
 The prefixes option is important since Pokecord allows each server to have
 a different prefix. Since the pokecord farmer is configured to operate in channels,
 you need to specify the prefix for each channel. The easiest way to do that
 is with a dictionary, or commonly known as a key value pair. The key is the
-channel id `513741591802806292` in the example, and the value is the prefix
+channel id `499400204537586943` in the example, and the value is the prefix
 `p!` in the example.
