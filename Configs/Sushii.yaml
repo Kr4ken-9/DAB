@@ -2,7 +2,6 @@ firsttime: true
 repfarming: true
 fishyfarming: true
 channel: 435949310610374661
-silent: 5
 fishyrecipients: [008487706220002265]
 reprecipients: [008487706220002265]
 fishydelay: 720

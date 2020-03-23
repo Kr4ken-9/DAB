@@ -19,7 +19,6 @@ includes rep and fishies.
 |:----------:|:----------------------------------------------------------------------------:|
 | repdelay   | Interval, in seconds, in which rep is farmed in the configured channels      |
 | fishydelay | Interval, in seconds, in which fishies are farmed in the configured channels |
-| silent     | Delay before a farming message is deleted                                    |
 
 ### Lists
 

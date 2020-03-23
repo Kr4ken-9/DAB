@@ -17,7 +17,6 @@ rep farming is supported.
 | Integer | Description                                                             |
 |:-------:|:-----------------------------------------------------------------------:|
 | delay   | Interval, in seconds, in which rep is farmed in the configured channels |
-| silent  | Delay before a farming message is deleted                               |
 
 ### Lists
 

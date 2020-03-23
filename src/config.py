@@ -28,3 +28,34 @@ class Config:
         """Loads path as a yaml config"""
         with open(self.path, "r") as file:
             return yaml.load(file, Loader=yaml.SafeLoader)
+
+    def is_example(self):
+        """Determines whether the given config file is an example
+
+        :return: Whether or not the config file is an example
+        """
+        if self.check_config():
+            c = self.load_config()
+
+            return c["firsttime"]
+
+        return True
+
+    def populate_config(self, yaml_conf):
+        pass
+
+    def replace_example(self):
+        """Replace example config with working config"""
+
+        # Skip the config file if it"s not an example
+        if not self.is_example():
+            return
+
+        # Load the yaml of the example config
+        oldconfig = self.load_config()
+
+        # Replace example contents with working contents
+        populated_config = self.populate_config(oldconfig)
+
+        # Replace example config with working config
+        self.save_config(populated_config)

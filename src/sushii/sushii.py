@@ -34,11 +34,8 @@ class Sushii():
             # Human typing delay
             delay = self.rand.randint(1, 3)
 
-            # If configured, get the delay before deleting the message
-            silent_delay = utils.get_delay(self.config["silent"], self.rand)
-
             # Give the random recipient rep
-            outbound = outbound_message.Outbound_Message(f"-rep <@{random_recipient}>", channel, delay, silent_delay)
+            outbound = outbound_message.Outbound_Message(f"-rep <@{random_recipient}>", channel, delay)
             await outbound.send()
 
             if self.client.shared["logging"]:
@@ -69,11 +66,8 @@ class Sushii():
             # Human typing delay
             delay = self.rand.randint(1, 3)
 
-            # If configured, get the delay before deleting the message
-            silent_delay = utils.get_delay(self.config["silent"], self.rand)
-
             # Give the random recipient fishies
-            outbound = outbound_message.Outbound_Message(f"-fishy <@{random_recipient}>", channel, delay, silent_delay)
+            outbound = outbound_message.Outbound_Message(f"-fishy <@{random_recipient}>", channel, delay)
             await outbound.send()
 
             if self.client.shared["logging"]:

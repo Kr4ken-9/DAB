@@ -7,19 +7,6 @@ class Sushiiconfig(config.Config):
 
         self.replace_example()
 
-    def is_example(self):
-        """Determines whether the given config file is an example
-
-        :param path: Path to the config file
-        :return: Whether or not the config file is an example
-        """
-        if self.check_config():
-            c = self.load_config()
-
-            return c["firsttime"]
-
-        return True
-
     def populate_config(self, yaml_conf):
         """Populates a new config with user input via commandline
 
@@ -45,15 +32,6 @@ class Sushiiconfig(config.Config):
         channel = input("Enter the channel id to farm sushii rep and fishies: ")
         yaml_conf["channel"] = int(channel)
 
-        silent = input("\nNow enter the delay, in seconds, before farming messages are deleted, or 'False' to disable deleting them: ")
-        silent = utils.string_to_bool(silent)
-
-        # If user didn't disable silence, convert it to integer
-        if not isinstance(silent, bool):
-            silent = int(silent)
-
-        yaml_conf["silent"] = silent
-
         repdelay = input("\nNow enter the interval, in seconds, at which rep will be farmed: ")
         yaml_conf["repdelay"] = int(repdelay)
 
@@ -71,19 +49,3 @@ class Sushiiconfig(config.Config):
         yaml_conf["fishyrecipients"] = fishyrecipients
 
         return yaml_conf
-
-    def replace_example(self):
-        """Replace example config with working config"""
-
-        # Skip the config file if it"s not an example
-        if not self.is_example():
-            return
-
-        # Load the yaml of the example config
-        oldconfig = self.load_config()
-
-        # Replace example contents with working contents
-        populated_config = self.populate_config(oldconfig)
-
-        # Replace example config with working config
-        self.save_config(populated_config)
