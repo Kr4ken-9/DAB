@@ -19,7 +19,7 @@ def load_json(path):
 class Pokecord:
     def __init__(self, client):
         self.client = client
-        p = pokeconfig.PokeConfig("RealConfigs/Pokecord.yaml")
+        p = pokeconfig.PokeConfig("Configs/Pokecord.yaml")
         self.config = p.load_config()
         self.rand = random.SystemRandom()
         self.hashes = load_json("pokebois.json")
