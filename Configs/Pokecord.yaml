@@ -2,6 +2,10 @@ firsttime: true
 enabled : true
 autocatch: true
 autorelease: true
+enablewhitelist: false
+whitelist: [Weedle, Kakuna]
+enableblacklist: false
+blacklist: [Bulbasaur, Ivysaur]
 autocatchdelay: [2, 4]
 minimumiv: 50
 prefixes: {997934948344168934: 'p!', 452605484358712643: ';'}

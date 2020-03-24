@@ -50,4 +50,6 @@ class PokeConfig(config.Config):
         prefixes[channels[0]] = prefix
         yaml_conf["prefixes"] = prefixes
 
+        print("\nNote: Blacklisting/Whitelisting must be configured manually, in the Pokecord.yaml file")
+
         return yaml_conf

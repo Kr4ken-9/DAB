@@ -19,11 +19,15 @@ def load_json(path):
 class Pokecord:
     def __init__(self, client):
         self.client = client
-        p = pokeconfig.PokeConfig("Configs/Pokecord.yaml")
+        p = pokeconfig.PokeConfig("RealConfigs/Pokecord.yaml")
         self.config = p.load_config()
         self.rand = random.SystemRandom()
         self.hashes = load_json("pokebois.json")
         self.pokebois = {}
+        # Create case insensitive version of whitelist and blacklist lists
+        # Can't trust anybody to capitalize lol
+        self.whitelist = map(str.upper, self.config["whitelist"])
+        self.blacklist = map(str.upper, self.config["blacklist"])
 
     # region checks
 
@@ -109,6 +113,24 @@ class Pokecord:
 
         # Record latest pokemon that appeared in this channel
         self.pokebois[channel.id] = pokemon
+
+        # If whitelist is enabled, check if the pokemon we are trying to catch is whitelisted
+        # If not, we're going to abort and not catch the pokemon
+        if self.config["enablewhitelist"]:
+            if pokemon.upper() not in self.whitelist:
+                if self.client.shared["logging"]:
+                    utils.log(f"{pokemon} ignored, not whitelisted. Channel: {channel.id}")
+
+                return
+
+        # If blacklist is enabled, check if the pokemon we are trying to catch is blacklisted
+        # If it is, we're going to abort and not catch the pokemon
+        if self.config["enableblacklist"]:
+            if pokemon.upper() in self.blacklist:
+                if self.client.shared["logging"]:
+                    utils.log(f"{pokemon} ignored, blacklisted. Channel: {channel.id}")
+
+                return
 
         # Get the prefix for this channel
         prefixes = self.config["prefixes"]

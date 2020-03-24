@@ -41,6 +41,9 @@ class Config:
 
         return True
 
+    # This is basically an abstract method.
+    # However, if I officially label it one, Python will require it to be overridden
+    # One instance in main.py does not require this method, so we will just trust users to override it when needed
     def populate_config(self, yaml_conf):
         pass
 
