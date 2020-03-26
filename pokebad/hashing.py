@@ -22,12 +22,12 @@ def hash_them_all(images, output):
     for imagePath in glob.iglob(f"{images}/*.png"):
         # load the image and compute the difference hash
         image = Image.open(imagePath)
-        h = str(imagehash.dhash(image))
+        h = str(imagehash.dhash(image, 16))
 
-        # extract the filename from the path and update the database
-        # using the hash as the key and the filename append to the
-        # list of values
-        filename = imagePath[imagePath.find('_') + 1:imagePath.find('.')]
+        # extract the filename from the path and update the database  | NOTE
+        # using the hash as the key and the filename append to the    | We are using rfind because some Pokemon names have Mr. in them
+        # list of values                                              | Using rfind will find the .png instead of Mr.
+        filename = imagePath[imagePath.find('_') + 1:imagePath.rfind('.')]
         db[h] = filename
 
     with open(output, 'w') as file:

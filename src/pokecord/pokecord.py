@@ -104,7 +104,7 @@ class Pokecord:
         # Perceptual is how the image looks
         # Difference is a type of algorithm
         # Altogether: An identifier for how the image looks
-        hash = str(imagehash.dhash(png))
+        hash = str(imagehash.dhash(png, 16))
 
         # Search through the list of hashes we already have for a match
         # The dictionary has keys of hashes and values of names
