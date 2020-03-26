@@ -111,13 +111,17 @@ class Pokecord:
         # So we pass the hash and get the name of the Pokemon
         pokemon = self.hashes[hash]
 
+        # We use the uppercase verison of the pokemon a lot
+        # So we will just create a variable for it here
+        pupper = pokemon.upper()
+
         # Record latest pokemon that appeared in this channel
-        self.pokebois[channel.id] = pokemon
+        self.pokebois[channel.id] = pupper
 
         # If whitelist is enabled, check if the pokemon we are trying to catch is whitelisted
         # If not, we're going to abort and not catch the pokemon
         if self.config["enablewhitelist"]:
-            if pokemon.upper() not in self.whitelist:
+            if pupper not in self.whitelist:
                 if self.client.shared["logging"]:
                     utils.log(f"{pokemon} ignored, not whitelisted. Channel: {channel.id}")
 
@@ -126,11 +130,16 @@ class Pokecord:
         # If blacklist is enabled, check if the pokemon we are trying to catch is blacklisted
         # If it is, we're going to abort and not catch the pokemon
         if self.config["enableblacklist"]:
-            if pokemon.upper() in self.blacklist:
+            if pupper in self.blacklist:
                 if self.client.shared["logging"]:
                     utils.log(f"{pokemon} ignored, blacklisted. Channel: {channel.id}")
 
                 return
+
+        # If configured, make pokemon name lowercase when we claim it
+        # The idea is that it might look more human since we are presumably typing fast
+        if self.config["lowercasepokemon"]:
+            pokemon = pokemon.lower()
 
         # Get the prefix for this channel
         prefixes = self.config["prefixes"]
@@ -143,7 +152,7 @@ class Pokecord:
             # Check if the latest pokemon is still the one we are trying to catch
             # If not, this means someone has already caught it or a new one appeared
             # In which case we need to abort
-            if self.pokebois[channel.id] != pokemon:
+            if self.pokebois[channel.id] != pupper:
                 if self.client.shared["logging"]:
                     utils.log(f"{pokemon} was caught/replaced in {channel.id}")
 

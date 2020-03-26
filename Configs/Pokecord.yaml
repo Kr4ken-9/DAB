@@ -2,6 +2,7 @@ firsttime: true
 enabled : true
 autocatch: true
 autorelease: true
+lowercasepokemon: true
 enablewhitelist: false
 whitelist: [Weedle, Kakuna]
 enableblacklist: false

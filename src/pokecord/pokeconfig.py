@@ -28,6 +28,10 @@ class PokeConfig(config.Config):
         autocatch = input("\nEnter 'True' or 'False' to enable/disable auto catching: ")
         yaml_conf["autocatch"] = utils.string_to_bool(autocatch)
 
+        print("\nNext is the option to catch pokemon using their lowercase names. The idea is to make catching them less suspicious.")
+        lowercasepokemon = input("Enter 'True' to use their lowercase names, or 'False' to use their capitalized names: ")
+        yaml_conf["lowercasepokemon"] = lowercasepokemon
+
         autorelease = input("\nEnter 'True' or 'False' to enable/disable auto releasing based on IV%: ")
         yaml_conf["autorelease"] = utils.string_to_bool(autorelease)
 

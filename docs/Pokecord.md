@@ -8,14 +8,15 @@ Note: Blacklisting/Whitelisting must be configured manually, in the Pokecord.yam
 
 ### Booleans (True/False)
 
-| Bool            | Description                                                         |
-|:---------------:|:-------------------------------------------------------------------:|
-| firsttime       | Used for commandline configuration, disable to configure manually   |
-| enabled         | Whether or not all Pokecord related farming is enabled              |
-| autocatch       | Whether or not automatic Pokemon catching is enabled                |
-| autorelease     | Whether or not automatic releasing of configured Pokemon is enabled |
-| enablewhitelist | Enable/Disable catching only whitelisted pokemon                    |
-| enableblacklist | Enable/Disable ignoring blacklisted pokemon                         |
+| Bool             | Description                                                                         |
+|:----------------:|:-----------------------------------------------------------------------------------:|
+| firsttime        | Used for commandline configuration, disable to configure manually                   |
+| enabled          | Whether or not all Pokecord related farming is enabled                              |
+| autocatch        | Whether or not automatic Pokemon catching is enabled                                |
+| autorelease      | Whether or not automatic releasing of configured Pokemon is enabled                 |
+| lowercasepokemon | If enabled, catch pokemon using their name in lowercase (Possibly less conspicuous) |
+| enablewhitelist  | Enable/Disable catching only whitelisted pokemon                                    |
+| enableblacklist  | Enable/Disable ignoring blacklisted pokemon                                         |
 
 ### Integers
 
