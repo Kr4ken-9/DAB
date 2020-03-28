@@ -39,6 +39,12 @@ The first time you run DAB, it will give you the option to configure it
 via commandline. This feature is still in progress and is not very reliable.
 You will most likely get better results configuring it manually. (See Help)
 
+### Warning
+
+DAB uses a modified version of discord.py listed in requirements.txt.
+As of right now, if you don't trust this version, you can replace it with the latest official discord.py from Rapptz
+Read more about the modified version [here](Discordpy.md).
+
 ### Help
 
 Please look at the configuration documentation to help you understand both
