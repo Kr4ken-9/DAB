@@ -1,16 +1,16 @@
-import discord
 from discord.ext import commands
+
 from src import config, message_handler
-from src.tatsumaki import tatsumaki
-from src.sushii import sushii
 from src.messages import messages
 from src.pokecord import pokecord
 from src.sidney import sidney
+from src.sushii import sushii
+from src.tatsumaki import tatsumaki
 
 
 class DAB(commands.bot.Bot):
     def __init__(self, command_prefix):
-        super().__init__(command_prefix=command_prefix, self_bot=True)
+        super().__init__(command_prefix=command_prefix, self_bot=True, fetch_offline_members=False)
         self.messages = messages.Messages(self)
         self.tatsumaki = tatsumaki.Tatsumaki(self)
         self.sushii = sushii.Sushii(self)
@@ -36,7 +36,6 @@ class DAB(commands.bot.Bot):
 
     async def on_message(self, message):
         await self.MessageHandler.handle_message(message)
-
 
 shared = config.Config("Configs/Shared.yaml")
 shared_yaml = shared.load_config()
