@@ -1,4 +1,4 @@
-git+https://github.com/Kr4ken-9/discord.py@00745a755c3e425f3f2317e2e7c9ce61f5188128
+git+https://github.com/Kr4ken-9/discord.py@1e937b244e8e8c7b9048823948c3346aaa95461b
 pyyaml
 requests
 Pillow
