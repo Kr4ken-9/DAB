@@ -13,21 +13,16 @@ class Sushii():
         self.config = s.load_config()
 
     async def rep(self):
-        """Send messages to add rep to the configured person at a configured interval"""
+        """Automate farming Sushii rep with a configured recipient and interval"""
         await self.client.wait_until_ready()
-
-        # If disabled in configuration, don"t proceed
-        if not self.config["repfarming"]:
-            return
 
         if self.client.shared["logging"]:
             utils.log("Sushii rep farming enabled")
 
         recipients = utils.list_generator(self.config["reprecipients"])
+        channel = self.client.get_channel(self.config["channel"])
 
         while not self.client.is_closed():
-            channel = self.client.get_channel(self.config["channel"])
-
             # Get a random recipient from one of the configured ones
             random_recipient = next(recipients)
 
@@ -48,18 +43,13 @@ class Sushii():
         """Send messages to add fishies to the configured person at a configured interval"""
         await self.client.wait_until_ready()
 
-        # If disabled in configuration, don"t proceed
-        if not self.config["fishyfarming"]:
-            return
-
         if self.client.shared["logging"]:
             utils.log("Sushii fishy farming enabled")
 
         recipients = utils.list_generator(self.config["fishyrecipients"])
+        channel = self.client.get_channel(self.config["channel"])
 
         while not self.client.is_closed():
-            channel = self.client.get_channel(self.config["channel"])
-
             # Get a random recipient from one of the configured ones
             random_recipient = next(recipients)
 

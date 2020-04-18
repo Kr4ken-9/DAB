@@ -13,21 +13,16 @@ class Tatsumaki:
         self.rand = random.SystemRandom()
 
     async def rep(self):
-        """Send messages to add rep to the configured person at a configured interval"""
+        """Automate farming Tatsumaki rep with a configured recipient and interval"""
         await self.client.wait_until_ready()
-
-        # If disabled in configuration, don"t proceed
-        if not self.config["repfarming"]:
-            return
 
         if self.client.shared["logging"]:
             utils.log("Tatsumaki rep farming enabled")
 
         recipients = utils.list_generator(self.config["recipients"])
+        channel = self.client.get_channel(self.config["channel"])
 
         while not self.client.is_closed():
-            channel = self.client.get_channel(self.config["channel"])
-
             # Get a random recipient from one of the configured ones
             random_recipient = next(recipients)
 

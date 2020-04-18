@@ -12,27 +12,23 @@ class Messages:
         self.rand = random.SystemRandom()
 
     async def farm(self):
-        """Send messages according to yaml config specifying frequency, channel, etc"""
+        """Automate sending messages with a configured frequency, channel, etc"""
         await self.client.wait_until_ready()
-
-        # Don"t proceed if no channels are configured or configured to
-        if not self.config["enabled"] or len(self.config["channels"]) == 0:
-            return
 
         if self.client.shared["logging"]:
             utils.log("Message farming enabled")
 
-            messages = utils.list_generator(self.config["messages"])
+        messages = utils.list_generator(self.config["messages"])
+        channels = self.config["channels"]
 
         while not self.client.is_closed():
-            channels = self.config["channels"]
             # If configured, shuffle the channels to randomize the order we farm them
             if self.config["randomchannels"]:
                 self.rand.shuffle(channels)
 
-            for schannel in channels:
+            for channel_id in channels:
                 # Create a channel object of the configured channel id
-                channel = self.client.get_channel(schannel)
+                channel = self.client.get_channel(channel_id)
 
                 # Get a random message from one of the configured ones
                 random_message = next(messages)
@@ -48,7 +44,7 @@ class Messages:
                 await outbound.send()
 
                 if self.client.shared["logging"]:
-                    utils.log(f"Sent \"{random_message}\" to {schannel}")
+                    utils.log(f"Sent \"{random_message}\" to {channel_id}")
 
             # Delay the loop if configured
             await asyncio.sleep(utils.get_delay(self.config["delay"], self.rand))

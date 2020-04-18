@@ -10,23 +10,19 @@ class SidneyConfig(config.Config):
     def populate_config(self, yaml_conf):
         """Populates a new config with user input via commandline
 
-        :param yaml_conf: An example config to replace values of
-        :return: A populated config
+        :param yaml_conf: An example YAML config to replace values of
+        :return: A user-populated YAML config
         """
 
         yaml_conf["firsttime"] = False
 
-        enabled = input("\nNow we will set up Sidney. Enter 'True' or 'False' to enable/disable sidneybot farming: ")
-        enabled = utils.string_to_bool(enabled)
-        yaml_conf["enabled"] = enabled
-
-        if not enabled:
-            print("Sidneybot farming disabled.")
-            return yaml_conf
-
-        work = input("\nEnter 'True' or 'False' to enable/disable work farming: ")
+        work = input("\nNow we will set up Sidney. Enter 'True' or 'False' to enable/disable sidneybot work farming: ")
         work = utils.string_to_bool(work)
         yaml_conf["workfarming"] = work
+
+        if not work:
+            print("Work farming is the only option for sidneybot. Sidneybot farming has been disabled.")
+            return yaml_conf
 
         print("\nNow configure the interval at which work will be farmed, called delay.")
         delay = int(input("Enter the interval in seconds: "))

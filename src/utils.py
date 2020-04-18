@@ -70,6 +70,11 @@ def log(text):
 
 
 def list_generator(list):
+    """
+    Create a randomized generator for a list
+    :param list: List to be randomized
+    :return: Randomized generator
+    """
     random.shuffle(list)
     c = 0
     while True:
@@ -81,6 +86,12 @@ def list_generator(list):
 
 
 def get_delay(config, rand):
+    """
+    Determine a delay based on YAML configuration
+    :param config: YAML config element specifying a delay
+    :param rand: Random object to return a random delay if configured
+    :return: Randomized or specified delay as an integer
+    """
     # If configured, treat silent config option as parameters
     if type(config) is list:
         minmax = config

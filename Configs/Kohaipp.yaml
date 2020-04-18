@@ -1,0 +1,14 @@
+firsttime: true
+enabled: false
+begging: true
+raiding: true
+mining: false
+bonding: false
+begchannel: 323793147718110748
+raidchannel: 303051855354136322
+minechannel: 851758439013102135
+bondchannel: 196285129173008984
+begdelay: [31, 35]
+raiddelay: [121, 125]
+minedelay: [301, 305]
+bonddelay: [901, 905]

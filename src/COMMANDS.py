@@ -1,6 +1,6 @@
 import asyncio
 from discord.ext import commands
-from src import utils
+from src import utils, outbound_message
 
 
 class Commands(commands.Cog):
@@ -13,10 +13,11 @@ class Commands(commands.Cog):
     async def mrelease(self, context):
         prefixes = self.pokecord.config["prefixes"]
 
-        async with context.channel.typing():  # Humans need a minute
+        # Calculate a human typing delay
+        delay = self.pokecord.rand.randint(1, 3)
 
-
-            await context.send(f"{prefixes[context.channel.id]}pokemon")
+        outbound = outbound_message.Outbound_Message(f"{prefixes[context.channel.id]}pokemon", context.channel, delay)
+        await outbound.send()
 
         reply = await self.client.wait_for("message", check=self.pokecord.pokecord_check)
 
@@ -34,7 +35,7 @@ class Commands(commands.Cog):
 
             return False
 
-        print(f"\n\n{reply.embed.description}\n\n")
+        print(f"\n\n{embed.description}\n\n")
 
 
 def setup(client):

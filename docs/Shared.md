@@ -2,7 +2,7 @@
 
 Shared configuration options that all or most elements of the bot will use.
 
-Config Options:
+## Config Options:
 
 | Option  | Description                                            |
 |:-------:|:------------------------------------------------------:|

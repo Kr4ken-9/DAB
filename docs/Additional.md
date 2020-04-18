@@ -3,6 +3,10 @@
 This doc covers common configuration options that may need more in-depth
 explanations.
 
+## Integer Delays
+
+All integer delays are in seconds.
+
 ## Silent
 
 Acceptable configuration options:

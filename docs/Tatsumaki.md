@@ -16,6 +16,7 @@ rep farming is supported.
 
 | Integer | Description                                                             |
 |:-------:|:-----------------------------------------------------------------------:|
+| channel | Channel id for the channel Tatsumaki related things are automated in (Only one channel because they are mostly global stats) |
 | delay   | Interval, in seconds, in which rep is farmed in the configured channels |
 
 ### Lists
@@ -23,11 +24,5 @@ rep farming is supported.
 | List         | Description                      |
 |:------------:|:--------------------------------:|
 | recipients   | List of user ids to farm rep for |
-
-### Strings
-
-| String  | Description                                                                                                     |
-|:-------:|:---------------------------------------------------------------------------------------------------------------:|
-| channel | Channel id in which Tatsumaki related things are farmed (Only one channel because they are mostly global stats) |
 
 Additional notes [here](Additional.md)

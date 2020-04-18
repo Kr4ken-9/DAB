@@ -17,6 +17,7 @@ includes rep and fishies.
 
 | Integer    | Description                                                                  |
 |:----------:|:----------------------------------------------------------------------------:|
+| channel | Channel id for the channel Sushii related things are automated in (Only one channel because they are mostly global stats) |
 | repdelay   | Interval, in seconds, in which rep is farmed in the configured channels      |
 | fishydelay | Interval, in seconds, in which fishies are farmed in the configured channels |
 
@@ -26,11 +27,5 @@ includes rep and fishies.
 |:---------------:|:------------------------------------:|
 | fishyrecipients | List of user ids to farm fishies for |
 | reprecipients   | List of user ids to farm rep for     |
-
-### Strings
-
-| String  | Description                                                                                                  |
-|:-------:|:------------------------------------------------------------------------------------------------------------:|
-| channel | Channel id in which Sushii related things are farmed (Only one channel because they are mostly global stats) |
 
 Additional notes [here](Additional.md)

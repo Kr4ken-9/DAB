@@ -6,6 +6,7 @@ from src.pokecord import pokecord
 from src.sidney import sidney
 from src.sushii import sushii
 from src.tatsumaki import tatsumaki
+from src.kohaipp import kohaipp
 
 
 class DAB(commands.bot.Bot):
@@ -16,17 +17,49 @@ class DAB(commands.bot.Bot):
         self.sushii = sushii.Sushii(self)
         self.pokecord = pokecord.Pokecord(self)
         self.sidney = sidney.Sidney(self)
+        self.kohaipp = kohaipp.Kohaipp(self)
         self.shared = shared_yaml
         self.MessageHandler = message_handler.MessageHandler(self)
 
         self.start_background_tasks()
 
     def start_background_tasks(self):
-        self.loop.create_task(self.messages.farm())
-        self.loop.create_task(self.tatsumaki.rep())
-        self.loop.create_task(self.sushii.rep())
-        self.loop.create_task(self.sushii.fishy())
-        self.loop.create_task(self.sidney.work())
+        # Check if message farming is enabled and channels are configured
+        if self.messages.config["enabled"]:
+            if len(self.messages.config["channels"]) > 0:
+                self.loop.create_task(self.messages.farm())
+
+        # Check if rep farming is enabled
+        if self.tatsumaki.config["repfarming"]:
+            self.loop.create_task(self.tatsumaki.rep())
+
+        # Check if rep farming is enabled
+        if self.sushii.config["repfarming"]:
+            self.loop.create_task(self.sushii.rep())
+
+        # Check if fishy farming is enabled
+        if self.sushii.config["fishyfarming"]:
+            self.loop.create_task(self.sushii.fishy())
+
+        # Check if work farming is enabled
+        if self.sidney.config["workfarming"]:
+            self.loop.create_task(self.sidney.work())
+
+        # Check if begging automation is enabled
+        if self.kohaipp.config["begging"]:
+            self.loop.create_task(self.kohaipp.beg())
+
+        # Check if raiding automation is enabled
+        if self.kohaipp.config["raiding"]:
+            self.loop.create_task(self.kohaipp.raid())
+
+        # Check if mining automation is enabled
+        if self.kohaipp.config["mining"]:
+            self.loop.create_task(self.kohaipp.mine())
+
+        # Check if bonding automation is enabled
+        if self.kohaipp.config["bonding"]:
+            self.loop.create_task(self.kohaipp.bond())
 
     async def on_ready(self):
         print("\nLogged in as")
@@ -36,6 +69,7 @@ class DAB(commands.bot.Bot):
 
     async def on_message(self, message):
         await self.MessageHandler.handle_message(message)
+
 
 shared = config.Config("Configs/Shared.yaml")
 shared_yaml = shared.load_config()
