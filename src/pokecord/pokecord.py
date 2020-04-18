@@ -19,7 +19,7 @@ def load_json(path):
 class Pokecord:
     def __init__(self, client):
         self.client = client
-        p = pokeconfig.PokeConfig("Configs/Pokecord.yaml")
+        p = pokeconfig.PokeConfig(f"{self.client.config_directory}/Pokecord.yaml")
         self.config = p.load_config()
         self.rand = random.SystemRandom()
         self.hashes = load_json("pokebois.json")
@@ -109,7 +109,11 @@ class Pokecord:
         # Search through the list of hashes we already have for a match
         # The dictionary has keys of hashes and values of names
         # So we pass the hash and get the name of the Pokemon
-        pokemon = self.hashes[hash]
+        try:
+            pokemon = self.hashes[hash]
+        except KeyError:
+            utils.log(f"ERROR - Pokemon missing from database. Hash:\n{hash}\nPlease report this to https://github.com/Kr4ken-9/DAB/issues")
+            return
 
         # We use the uppercase verison of the pokemon a lot
         # So we will just create a variable for it here

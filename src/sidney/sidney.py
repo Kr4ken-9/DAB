@@ -8,7 +8,7 @@ from src.sidney import sidneyconfig
 class Sidney:
     def __init__(self, client):
         self.client = client
-        s = sidneyconfig.SidneyConfig("Configs/Sidney.yaml")
+        s = sidneyconfig.SidneyConfig(f"{self.client.config_directory}/Sidney.yaml")
         self.config = s.load_config()
         self.rand = random.SystemRandom()
 

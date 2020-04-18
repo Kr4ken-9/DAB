@@ -8,7 +8,7 @@ from src.tatsumaki import tatconfig
 class Tatsumaki:
     def __init__(self, client):
         self.client = client
-        t = tatconfig.Tatconfig("Configs/Tatsumaki.yaml")
+        t = tatconfig.Tatconfig(f"{self.client.config_directory}/Tatsumaki.yaml")
         self.config = t.load_config()
         self.rand = random.SystemRandom()
 

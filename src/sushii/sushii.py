@@ -9,7 +9,7 @@ class Sushii():
     def __init__(self, client):
         self.client = client
         self.rand = random.SystemRandom()
-        s = sushiiconfig.Sushiiconfig("Configs/Sushii.yaml")
+        s = sushiiconfig.Sushiiconfig(f"{self.client.config_directory}/Sushii.yaml")
         self.config = s.load_config()
 
     async def rep(self):

@@ -7,7 +7,7 @@ from src.messages import messagesconfig
 class Messages:
     def __init__(self, client):
         self.client = client
-        m = messagesconfig.MessagesConfig("Configs/Messages.yaml")
+        m = messagesconfig.MessagesConfig(f"{self.client.config_directory}/Messages.yaml", self.client.config_directory)
         self.config = m.load_config()
         self.rand = random.SystemRandom()
 

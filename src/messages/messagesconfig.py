@@ -1,8 +1,8 @@
 from src import utils, config
 
 
-def save_shared(token, owners):
-    sharedconfig = config.Config("Configs/Shared.yaml")
+def save_shared(token, owners, config_directory):
+    sharedconfig = config.Config(f"{config_directory}/Shared.yaml")
     newconfig = sharedconfig.load_config()
     newconfig["token"] = token
     newconfig["owners"] = owners
@@ -11,8 +11,10 @@ def save_shared(token, owners):
 
 
 class MessagesConfig(config.Config):
-    def __init__(self, path):
+    def __init__(self, path, config_directory):
         super().__init__(path)
+
+        self.config_directory = config_directory
 
         self.replace_example()
 
@@ -32,7 +34,7 @@ class MessagesConfig(config.Config):
         print("You can configure multiple owners manually (See Documentation)")
         owners = []
         owners.append(int(input("Enter the id: ")))
-        save_shared(token, owners)
+        save_shared(token, owners, self.config_directory)
 
         enabled = input("Now, enter 'True' or 'False' to enable/disable message farming: ")
         enabled = utils.string_to_bool(enabled)

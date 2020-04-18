@@ -9,7 +9,7 @@ class Kohaipp():
     def __init__(self, client):
         self.client = client
         self.rand = random.SystemRandom()
-        k = kohaippconfig.Kohaippconfig("Configs/Kohaipp.yaml")
+        k = kohaippconfig.Kohaippconfig(f"{self.client.config_directory}/Kohaipp.yaml")
         self.config = k.load_config()
         self.firsttime = True
 
