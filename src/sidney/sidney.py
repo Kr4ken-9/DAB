@@ -14,7 +14,6 @@ class Sidney:
 
     async def work(self):
         """Automate working for Sidneybot with a configured interval"""
-        await self.client.wait_until_ready()
 
         if self.client.shared["logging"]:
             utils.log("Sidneybot work farming enabled")

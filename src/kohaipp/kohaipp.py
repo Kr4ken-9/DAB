@@ -11,11 +11,9 @@ class Kohaipp():
         self.rand = random.SystemRandom()
         k = kohaippconfig.Kohaippconfig(f"{self.client.config_directory}/Kohaipp.yaml")
         self.config = k.load_config()
-        self.firsttime = True
 
     async def beg(self):
         """Automate begging for Kohaipp gold with a configured channel"""
-        await self.client.wait_until_ready()
 
         if self.client.shared["logging"]:
             utils.log("Kohaipp begging enabled")
@@ -25,11 +23,6 @@ class Kohaipp():
         while not self.client.is_closed():
             # Human typing delay
             delay = self.rand.randint(1, 2)
-
-            # Create a waterfall start so that multiple messages aren't sent at the same time
-            if self.firsttime:
-                await asyncio.sleep(self.rand.randint(1, 2))
-                self.firsttime = False
 
             # Beg!
             outbound = outbound_message.Outbound_Message("pp!b", channel, delay)
@@ -43,7 +36,6 @@ class Kohaipp():
 
     async def raid(self):
         """Automate raiding for Kohaipp with a configured channel"""
-        await self.client.wait_until_ready()
 
         if self.client.shared["logging"]:
             utils.log("Kohaiipp raiding enabled")
@@ -53,11 +45,6 @@ class Kohaipp():
         while not self.client.is_closed():
             # Human typing delay
             delay = self.rand.randint(1, 2)
-
-            # Create a waterfall start so that multiple messages aren't sent at the same time
-            if self.firsttime:
-                await asyncio.sleep(self.rand.randint(6, 7))
-                self.firsttime = False
 
             # Raid!
             outbound = outbound_message.Outbound_Message("pp!r", channel, delay)
@@ -71,7 +58,6 @@ class Kohaipp():
 
     async def mine(self):
         """Automate mining for Kohaipp with a configured channel"""
-        await self.client.wait_until_ready()
 
         if self.client.shared["logging"]:
             utils.log("Kohaiipp mining enabled")
@@ -81,11 +67,6 @@ class Kohaipp():
         while not self.client.is_closed():
             # Human typing delay
             delay = self.rand.randint(1, 2)
-
-            # Create a waterfall start so that multiple messages aren't sent at the same time
-            if self.firsttime:
-                await asyncio.sleep(self.rand.randint(11, 12))
-                self.firsttime = False
 
             # Mine!
             outbound = outbound_message.Outbound_Message("pp!m", channel, delay)
@@ -99,7 +80,6 @@ class Kohaipp():
 
     async def bond(self):
         """Automate bonding with your Kohaipp pet with a configured channel"""
-        await self.client.wait_until_ready()
 
         if self.client.shared["logging"]:
             utils.log("Kohaiipp pet bonding enabled")
@@ -109,11 +89,6 @@ class Kohaipp():
         while not self.client.is_closed():
             # Human typing delay
             delay = self.rand.randint(1, 2)
-
-            # Create a waterfall start so that multiple messages aren't sent at the same time
-            if self.firsttime:
-                await asyncio.sleep(self.rand.randint(16, 17))
-                self.firsttime = False
 
             # Bond!
             outbound = outbound_message.Outbound_Message("pp!petb", channel, delay)

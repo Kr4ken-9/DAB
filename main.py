@@ -1,4 +1,6 @@
 import argparse
+import asyncio
+import random
 
 from discord.ext import commands
 
@@ -15,6 +17,8 @@ class DAB(commands.bot.Bot):
     def __init__(self, _onfig_directory, command_prefix):
         super().__init__(command_prefix=command_prefix, self_bot=True, fetch_offline_members=False)
         self.config_directory = config_directory
+        self.rand = random.SystemRandom()
+
         self.messages = messages.Messages(self)
         self.tatsumaki = tatsumaki.Tatsumaki(self)
         self.sushii = sushii.Sushii(self)
@@ -24,9 +28,7 @@ class DAB(commands.bot.Bot):
         self.shared = shared_yaml
         self.MessageHandler = message_handler.MessageHandler(self)
 
-        self.start_background_tasks()
-
-    def start_background_tasks(self):
+    async def start_background_tasks(self):
         # Check if message farming is enabled and channels are configured
         if self.messages.config["enabled"]:
             if len(self.messages.config["channels"]) > 0:
@@ -34,35 +36,43 @@ class DAB(commands.bot.Bot):
 
         # Check if rep farming is enabled
         if self.tatsumaki.config["repfarming"]:
+            await asyncio.sleep(self.rand.randint(6, 7))
             self.loop.create_task(self.tatsumaki.rep())
 
         # Check if rep farming is enabled
         if self.sushii.config["repfarming"]:
+            await asyncio.sleep(self.rand.randint(6, 7))
             self.loop.create_task(self.sushii.rep())
 
         # Check if fishy farming is enabled
         if self.sushii.config["fishyfarming"]:
+            await asyncio.sleep(self.rand.randint(6, 7))
             self.loop.create_task(self.sushii.fishy())
 
         # Check if work farming is enabled
         if self.sidney.config["workfarming"]:
+            await asyncio.sleep(self.rand.randint(6, 7))
             self.loop.create_task(self.sidney.work())
 
         if self.kohaipp.config["enabled"]:
             # Check if begging automation is enabled
             if self.kohaipp.config["begging"]:
+                await asyncio.sleep(self.rand.randint(6, 7))
                 self.loop.create_task(self.kohaipp.beg())
 
             # Check if raiding automation is enabled
             if self.kohaipp.config["raiding"]:
+                await asyncio.sleep(self.rand.randint(6, 7))
                 self.loop.create_task(self.kohaipp.raid())
 
             # Check if mining automation is enabled
             if self.kohaipp.config["mining"]:
+                await asyncio.sleep(self.rand.randint(6, 7))
                 self.loop.create_task(self.kohaipp.mine())
 
             # Check if bonding automation is enabled
             if self.kohaipp.config["bonding"]:
+                await asyncio.sleep(self.rand.randint(6, 7))
                 self.loop.create_task(self.kohaipp.bond())
 
     async def on_ready(self):
@@ -70,6 +80,8 @@ class DAB(commands.bot.Bot):
         print(self.user.name)
         print(self.user.id)
         print("------")
+
+        await self.start_background_tasks()
 
     async def on_message(self, message):
         await self.MessageHandler.handle_message(message)

@@ -14,7 +14,6 @@ class Tatsumaki:
 
     async def rep(self):
         """Automate farming Tatsumaki rep with a configured recipient and interval"""
-        await self.client.wait_until_ready()
 
         if self.client.shared["logging"]:
             utils.log("Tatsumaki rep farming enabled")

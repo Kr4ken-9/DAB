@@ -13,8 +13,7 @@ class Messages:
 
     async def farm(self):
         """Automate sending messages with a configured frequency, channel, etc"""
-        await self.client.wait_until_ready()
-
+        
         if self.client.shared["logging"]:
             utils.log("Message farming enabled")
 

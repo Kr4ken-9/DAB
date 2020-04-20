@@ -14,7 +14,6 @@ class Sushii():
 
     async def rep(self):
         """Automate farming Sushii rep with a configured recipient and interval"""
-        await self.client.wait_until_ready()
 
         if self.client.shared["logging"]:
             utils.log("Sushii rep farming enabled")
@@ -41,7 +40,6 @@ class Sushii():
 
     async def fishy(self):
         """Send messages to add fishies to the configured person at a configured interval"""
-        await self.client.wait_until_ready()
 
         if self.client.shared["logging"]:
             utils.log("Sushii fishy farming enabled")
