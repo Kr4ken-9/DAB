@@ -1,4 +1,7 @@
 import asyncio
+import datetime
+
+import discord.utils
 from discord.ext import commands
 from src import utils, outbound_message
 
@@ -36,6 +39,37 @@ class Commands(commands.Cog):
             return False
 
         print(f"\n\n{embed.description}\n\n")
+
+    @commands.command(pass_context=True)
+    async def clean(self, context, channel_id: int):
+        channel = self.client.get_channel(channel_id)
+        now = datetime.datetime.today()
+        lastdate = discord.utils.snowflake_time(channel_id)
+        messages = await channel.history(limit=9000, after=lastdate).flatten()
+
+        while True:
+            if lastdate >= now:
+                break
+
+            if len(messages) < 1:
+                break
+
+            for message in messages:
+                if message.author.id != self.client.user.id:
+                    continue
+
+                await asyncio.sleep(.5)
+
+                if self.shared_config["logging"]:
+                    utils.log(f"Message: {message.content}")
+
+                await message.delete()
+
+            lastdate = messages[-1].created_at
+            messages = await channel.history(limit=9000, after=lastdate).flatten()
+
+        if self.shared_config["logging"]:
+            utils.log(f"Command clean completed for {channel_id}")
 
 
 def setup(client):
