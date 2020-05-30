@@ -1,5 +1,6 @@
 import random
 import asyncio
+import datetime
 
 import requests
 from io import BytesIO
@@ -28,6 +29,9 @@ class Pokecord:
         # Can't trust anybody to capitalize lol
         self.whitelist = map(str.upper, self.config["whitelist"])
         self.blacklist = map(str.upper, self.config["blacklist"])
+        self.lastinterval = None
+        self.lastwait = None
+        self.waiting = False
 
     # region checks
 
@@ -72,7 +76,30 @@ class Pokecord:
         :param message: Message to check for pokemon
         :return:
         """
-        await self.client.wait_until_ready()
+
+        if self.config["intervalcatching"]:
+            now = datetime.datetime.now()
+
+            if self.lastinterval is None:
+                self.lastinterval = now
+
+            if self.waiting is False:
+                if (now - self.lastinterval).total_seconds() >= (self.config["interval"])[0]:
+                    self.lastwait = now
+                    self.waiting = True
+
+                    if self.client.shared["logging"]:
+                        utils.log("Waiting configured interval before continuing to catch")
+                    return False
+            else:
+                if (now - self.lastwait).total_seconds() >= (self.config["interval"])[1]:
+                    self.waiting = False
+                    self.lastinterval = now
+
+                    if self.client.shared["logging"]:
+                        utils.log("Autocatching resumed")
+                else:
+                    return False
 
         # If the message doesn't have an embed, ignore
         if len(message.embeds) != 1:
@@ -82,8 +109,8 @@ class Pokecord:
         embed = message.embeds[0]
 
         # If the message isn't a catchable pokemon, ignore
-        if not embed.title == "‌‌A wild pokémon has аppeаred!": # Thank you hidden characters
-            return
+        if not embed.title == "‌‌A wild pokémon has аppeаred!":  # Thank you hidden characters
+            return False
 
         # Download the image (picture of pokemon)
         embedimage = embed.image
@@ -112,7 +139,7 @@ class Pokecord:
         try:
             pokemon = self.hashes[hash]
         except KeyError:
-            utils.log(f"ERROR - Pokemon missing from database. Hash:\n{hash}\nPlease report this to https://github.com/Kr4ken-9/DAB/issues")
+            utils.log(f"ERROR - Pokemon missing from database. Hash:\n{hash}\nPlease report this to https://github.com/Kr4ken-9/DAB/issues\nPlease include pokemon name in report!")
             return
 
         # We use the uppercase verison of the pokemon a lot

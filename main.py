@@ -84,6 +84,7 @@ class DAB(commands.bot.Bot):
         await self.start_background_tasks()
 
     async def on_message(self, message):
+        await self.wait_until_ready()
         await self.MessageHandler.handle_message(message)
 
 

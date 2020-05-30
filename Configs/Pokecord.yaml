@@ -3,6 +3,7 @@ enabled : true
 autocatch: true
 autorelease: true
 lowercasepokemon: true
+intervalcatching: false
 enablewhitelist: false
 whitelist: [Weedle, Kakuna]
 enableblacklist: false
@@ -11,3 +12,4 @@ autocatchdelay: [2, 4]
 minimumiv: 50
 prefixes: {997934948344168934: 'p!', 452605484358712643: ';'}
 channels: [452605484358712643]
+interval: [69, 420]
