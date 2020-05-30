@@ -13,12 +13,13 @@ class MessageHandler:
         :param message:
         """
 
+        # Pokecord has been abandoned so it will be disabled by default
         # Check if message is a new pokemon and if so catch it
         # If enabled of course
-        if self.pokecord.config["enabled"] and self.pokecord.config["autocatch"]:
-            if self.pokecord.pokecord_check(message):
-                await self.pokecord.find_pokemon(message)
-                return
+        # if self.pokecord.config["enabled"] and self.pokecord.config["autocatch"]:
+        #     if self.pokecord.pokecord_check(message):
+        #         await self.pokecord.find_pokemon(message)
+        #         return
 
         # Check if message is a command
         owners = self.shared_config["owners"]

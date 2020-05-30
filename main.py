@@ -22,7 +22,7 @@ class DAB(commands.bot.Bot):
         self.messages = messages.Messages(self)
         self.tatsumaki = tatsumaki.Tatsumaki(self)
         self.sushii = sushii.Sushii(self)
-        self.pokecord = pokecord.Pokecord(self)
+        # self.pokecord = pokecord.Pokecord(self)
         self.sidney = sidney.Sidney(self)
         self.kohaipp = kohaipp.Kohaipp(self)
         self.shared = shared_yaml

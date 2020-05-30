@@ -10,35 +10,35 @@ class Commands(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.shared_config = client.shared
-        self.pokecord = client.pokecord
+        # self.pokecord = client.pokecord
 
-    @commands.command(pass_context=True)
-    async def mrelease(self, context):
-        prefixes = self.pokecord.config["prefixes"]
+    # @commands.command(pass_context=True)
+    # async def mrelease(self, context):
+    #     prefixes = self.pokecord.config["prefixes"]
 
-        # Calculate a human typing delay
-        delay = self.pokecord.rand.randint(1, 3)
+    #     # Calculate a human typing delay
+    #     delay = self.pokecord.rand.randint(1, 3)
 
-        outbound = outbound_message.Outbound_Message(f"{prefixes[context.channel.id]}pokemon", context.channel, delay)
-        await outbound.send()
+    #     outbound = outbound_message.Outbound_Message(f"{prefixes[context.channel.id]}pokemon", context.channel, delay)
+    #     await outbound.send()
 
-        reply = await self.client.wait_for("message", check=self.pokecord.pokecord_check)
+    #     reply = await self.client.wait_for("message", check=self.pokecord.pokecord_check)
 
-        if len(reply.embeds) != 1:
-            if self.shared_config["logging"]:
-                utils.log("Something went wrong attempting to mass release pokemon (No embed)")
+    #     if len(reply.embeds) != 1:
+    #         if self.shared_config["logging"]:
+    #             utils.log("Something went wrong attempting to mass release pokemon (No embed)")
 
-            return False
+    #         return False
 
-        embed = reply.embeds[0]
+    #     embed = reply.embeds[0]
 
-        if embed.title != "Your pokémon:":
-            if self.shared_config["logging"]:
-                utils.log("Something went wrong attempting to mass release pokemon (Incorrect embed)")
+    #     if embed.title != "Your pokémon:":
+    #         if self.shared_config["logging"]:
+    #             utils.log("Something went wrong attempting to mass release pokemon (Incorrect embed)")
 
-            return False
+    #         return False
 
-        print(f"\n\n{embed.description}\n\n")
+    #     print(f"\n\n{embed.description}\n\n")
 
     @commands.command(pass_context=True)
     async def clean(self, context, channel_id: int):
