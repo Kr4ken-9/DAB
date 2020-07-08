@@ -1,5 +1,7 @@
 firsttime: true
 enabled : true
+pokecordclone: true
+poketwo: true
 autocatch: true
 autorelease: true
 lowercasepokemon: true

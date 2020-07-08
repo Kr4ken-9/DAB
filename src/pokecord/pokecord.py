@@ -46,11 +46,14 @@ class Pokecord:
         if message.channel.id not in self.config["channels"]:
             return False
 
-        # If the message isn't send by Pokecord bot, ignore
-        if not message.author.id == 665301904791699476:
-            return False
+        # Check if DAB is configured to analyze these messages
+        if self.config["pokecordclone"] and message.author.id == 665301904791699476:
+            return True
 
-        return True
+        if self.config["poketwo"] and message.author.id == 716390085896962058:
+            return True
+
+        return False
 
     def check_catch(self, message):
         if len(message.mentions) != 1:
@@ -123,8 +126,7 @@ class Pokecord:
         url = embedimage.url
         image = requests.get(url)
 
-        # Pass image and channel to catch method
-        # message.channel
+        # Get pokemon from image
         pokemon = await self.hash(Image.open(BytesIO(image.content)))
         if pokemon is False:
             utils.log(f"ERROR - Pokemon missing from database. Hash:\n{hash}\nPlease report this to https://github.com/Kr4ken-9/DAB/issues\nPlease include pokemon name in report!")
@@ -133,13 +135,20 @@ class Pokecord:
         await self.catch(message.channel, pokemon)
 
     async def hash(self, png):
+        """Create a perceptual hash and find a matching Pokemon"""
+        # Remove the alpha channel that the pokecord clone messes with
         filtered_image = utils.alpharemover(png)
+
+        # Create a 16-bit perceptual hash of the image
         hash = imagehash.dhash(filtered_image, 16)
 
+        # Find a closely matching image from our hashes database
+        # We use 15 as the threshold (Most are within 7-8)
         for key in self.hashes:
             if key - hash < 15:
                 return str(self.hashes[key])
 
+        # If there were no matches within our threshold, return False
         return False
 
     async def catch(self, channel, pokemon):
