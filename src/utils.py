@@ -1,5 +1,6 @@
 import random
 import datetime
+from PIL import Image
 
 
 # region stb
@@ -102,3 +103,15 @@ def get_delay(config, rand):
     else:
         # If a static delay is configured, return it
         return config
+
+
+# New attempt at stopping DAB is doing some alpha channel fuckery to the background of images
+# Turns out it doesn't work very well if we do some basic filtering
+# Discussion and details here: https://github.com/Kr4ken-9/DAB/issues/62
+# Stolen from here: https://github.com/JohannesBuchner/imagehash/blob/master/examples/hashimages.py#L18
+def alpharemover(image):
+    if image.mode != 'RGBA':
+        return image
+    canvas = Image.new('RGBA', image.size, (255,255,255,255))
+    canvas.paste(image, mask=image)
+    return canvas.convert('RGB')

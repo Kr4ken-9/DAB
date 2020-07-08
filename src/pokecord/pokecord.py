@@ -33,6 +33,12 @@ class Pokecord:
         self.lastwait = None
         self.waiting = False
 
+        # Convert saved hash strings to usable ImageHash objects
+        self.hashes = {}
+        hashes = load_json("pokebois.json")
+        for key, value in hashes.items():
+            self.hashes[imagehash.hex_to_hash(key)] = value
+
     # region checks
 
     def pokecord_check(self, message):
@@ -41,7 +47,7 @@ class Pokecord:
             return False
 
         # If the message isn't send by Pokecord bot, ignore
-        if not message.author.id == 365975655608745985:
+        if not message.author.id == 665301904791699476:
             return False
 
         return True
@@ -109,7 +115,7 @@ class Pokecord:
         embed = message.embeds[0]
 
         # If the message isn't a catchable pokemon, ignore
-        if not embed.title == "‌‌A wild pokémon has аppeаred!":  # Thank you hidden characters
+        if not embed.title == "A wild pokémon has аppeаred!":  # Thank you hidden characters
             return False
 
         # Download the image (picture of pokemon)
@@ -118,29 +124,30 @@ class Pokecord:
         image = requests.get(url)
 
         # Pass image and channel to catch method
-        await self.catch(message.channel, Image.open(BytesIO(image.content)))
+        # message.channel
+        pokemon = await self.hash(Image.open(BytesIO(image.content)))
+        if pokemon is False:
+            utils.log(f"ERROR - Pokemon missing from database. Hash:\n{hash}\nPlease report this to https://github.com/Kr4ken-9/DAB/issues\nPlease include pokemon name in report!")
+            return
 
-    async def catch(self, channel, png):
+        await self.catch(message.channel, pokemon)
+
+    async def hash(self, png):
+        filtered_image = utils.alpharemover(png)
+        hash = imagehash.dhash(filtered_image, 16)
+
+        for key in self.hashes:
+            if key - hash < 15:
+                return str(self.hashes[key])
+
+        return False
+
+    async def catch(self, channel, pokemon):
         """Catch that pokeman and release it if it's garbage
 
         :param channel: Channel to catch the pokemon in
-        :param png: Image to identify
+        :param pokemon: Name of the pokemon to catch
         """
-        # Create a perceptual difference hash of the image
-        # A hash is just an identifier
-        # Perceptual is how the image looks
-        # Difference is a type of algorithm
-        # Altogether: An identifier for how the image looks
-        hash = str(imagehash.dhash(png, 16))
-
-        # Search through the list of hashes we already have for a match
-        # The dictionary has keys of hashes and values of names
-        # So we pass the hash and get the name of the Pokemon
-        try:
-            pokemon = self.hashes[hash]
-        except KeyError:
-            utils.log(f"ERROR - Pokemon missing from database. Hash:\n{hash}\nPlease report this to https://github.com/Kr4ken-9/DAB/issues\nPlease include pokemon name in report!")
-            return
 
         # We use the uppercase verison of the pokemon a lot
         # So we will just create a variable for it here
