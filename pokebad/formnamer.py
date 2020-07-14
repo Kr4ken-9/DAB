@@ -46,9 +46,6 @@ def get_alts(web_page, pokemon):
             alt = f"Alolan {pokemon}"
         elif alt == "Galarian Form":
             alt = f"Galarian {pokemon}"
-        elif alt[:4] == "Mega":
-            # In this case the alt is already correct so we don't need to do anything
-            pass
         else:
             continue
 

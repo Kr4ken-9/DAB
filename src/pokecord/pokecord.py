@@ -127,9 +127,9 @@ class Pokecord:
         image = requests.get(url)
 
         # Get pokemon from image
-        pokemon = await self.hash(Image.open(BytesIO(image.content)))
-        if pokemon is False:
-            utils.log(f"ERROR - Pokemon missing from database. Hash:\n{hash}\nPlease report this to https://github.com/Kr4ken-9/DAB/issues\nPlease include pokemon name in report!")
+        success, pokemon = await self.hash(Image.open(BytesIO(image.content)))
+        if success is False:
+            utils.log(f"ERROR - Pokemon missing from database. Hash:\n{pokemon}\nPlease report this to https://github.com/Kr4ken-9/DAB/issues\nPlease include pokemon name in report!")
             return
 
         await self.catch(message.channel, pokemon)
@@ -146,10 +146,10 @@ class Pokecord:
         # We use 15 as the threshold (Most are within 7-8)
         for key in self.hashes:
             if key - hash < 15:
-                return str(self.hashes[key])
+                return True, str(self.hashes[key])
 
         # If there were no matches within our threshold, return False
-        return False
+        return False, str(hash)
 
     async def catch(self, channel, pokemon):
         """Catch that pokeman and release it if it's garbage
