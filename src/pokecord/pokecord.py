@@ -47,7 +47,7 @@ class Pokecord:
             return False
 
         # Check if DAB is configured to analyze these messages
-        if self.config["pokecordclone"] and message.author.id == 665301904791699476:
+        if self.config["pokerealm"] and message.author.id == 665301904791699476:
             return True
 
         if self.config["poketwo"] and message.author.id == 716390085896962058:
@@ -118,7 +118,8 @@ class Pokecord:
         embed = message.embeds[0]
 
         # If the message isn't a catchable pokemon, ignore
-        if not embed.title == "A wild pokémon has аppeаred!":  # Thank you hidden characters
+        # PokeTwo uses normal characters while PokeRealm (And formerly Pokecord) use hidden characters
+        if not embed.title == "A wild pokémon has аppeаred!" and not embed.title == "A wild pokémon has appeared!":
             return False
 
         # Download the image (picture of pokemon)
