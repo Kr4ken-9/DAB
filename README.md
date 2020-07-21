@@ -16,8 +16,7 @@ DAB primarily automates sending messages every x seconds. This is useful for
 several bots because they award users experience or credits for sending
 messages every x seconds.
 
-However, DAB is also capable of automating bot-specific things such as Tatsumaki's
-rep system, Sushii's fishy system, and Pokecord's pokemon system.
+However, DAB is also capable of automating bot-specific things such as Tatsumaki's rep system, Sushii's fishy system, and Pokecord's (formerly) pokemon system. In the absence of Pokecord, DAB now supports automating PokeRealm and PokeTwo.
 
 ### How do I use it?
 
