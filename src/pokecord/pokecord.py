@@ -144,9 +144,10 @@ class Pokecord:
         hash = imagehash.dhash(filtered_image, 16)
 
         # Find a closely matching image from our hashes database
-        # We use 15 as the threshold (Most are within 7-8)
+        # We use 30 as the threshold (Most are within 7-8)
+        # Some images which are fucked with image editing are around 15
         for key in self.hashes:
-            if key - hash < 15:
+            if key - hash < 30:
                 return True, str(self.hashes[key])
 
         # If there were no matches within our threshold, return False
