@@ -102,4 +102,4 @@ shared_yaml = shared.load_config()
 client = DAB(config_directory, shared_yaml["prefix"])
 
 client.load_extension("src.COMMANDS")
-client.run(shared_yaml["token"], bot=False)
+client.run(f'{shared_yaml["token"]}', bot=False)
